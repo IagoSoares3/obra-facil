@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+
+    <title>Obra | Obra Fácil</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    >
+
+    <link rel="stylesheet" href="../../../style.css">
+    <link rel="stylesheet" href="detalhe.css">
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand-row">
+
+            <a
+                class="brand"
+                href="../../../index.html"
+                aria-label="Obra Fácil"
+            >
+                <img
+                    src="../../../assets/logo_sem_fundo.png"
+                    alt="Obra Fácil"
+                    class="brand-logo"
+                >
+
+                <span class="brand-copy">
+                    <strong>Obra Fácil</strong>
+                    <small>Gestão de obras</small>
+                </span>
+            </a>
+
+            <button
+                class="icon-button sidebar-toggle"
+                id="btn-toggle"
+                type="button"
+                aria-label="Recolher menu"
+            >
+                <span class="material-symbols-outlined">
+                    left_panel_close
+                </span>
+            </button>
+
+        </div>
+
+        <nav class="menu" aria-label="Menu principal">
+
+            <a
+                href="../../../index.html"
+                class="menu-item"
+            >
+                <span class="material-symbols-outlined">
+                    space_dashboard
+                </span>
+
+                <span class="menu-label">
+                    Visão geral
+                </span>
+            </a>
+
+            <a
+                href="../index.html"
+                class="menu-item active"
+            >
+                <span class="material-symbols-outlined">
+                    construction
+                </span>
+
+                <span class="menu-label">
+                    Obras
+                </span>
+            </a>
+
+            <a
+                href="#"
+                class="menu-item"
+                onclick="abrirTab('diario'); return false;"
+            >
+                <span class="material-symbols-outlined">
+                    edit_note
+                </span>
+
+                <span class="menu-label">
+                    Diário
+                </span>
+            </a>
+
+            <a
+                href="#"
+                class="menu-item"
+                onclick="abrirTab('materiais'); return false;"
+            >
+                <span class="material-symbols-outlined">
+                    inventory_2
+                </span>
+
+                <span class="menu-label">
+                    Materiais
+                </span>
+            </a>
+
+            <a
+                href="#"
+                class="menu-item"
+                onclick="abrirTab('equipe'); return false;"
+            >
+                <span class="material-symbols-outlined">
+                    groups
+                </span>
+
+                <span class="menu-label">
+                    Equipe
+                </span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+
+            <button
+                class="menu-item menu-button"
+                type="button"
+                onclick="mostrarToast('Configurações entram em uma etapa futura.')"
+            >
+                <span class="material-symbols-outlined">
+                    settings
+                </span>
+
+                <span class="menu-label">
+                    Configurações
+                </span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         CONTEÚDO
+    ====================================================== -->
+
+    <main class="main-area">
+
+        <header class="topbar">
+
+            <div class="topbar-title">
+                <span class="eyebrow">
+                    Obra
+                </span>
+
+                <h1 id="topbar-obra-nome">
+                    Carregando...
+                </h1>
+            </div>
+
+            <div class="topbar-actions">
+
+                <a
+                    href="../index.html"
+                    class="button button-ghost"
+                >
+                    <span class="material-symbols-outlined">
+                        arrow_back
+                    </span>
+
+                    <span class="btn-label">
+                        Todas as obras
+                    </span>
+                </a>
+
+            </div>
+
+        </header>
+
+        <section class="page-content">
+
+            <!-- LOADING -->
+
+            <div
+                class="obra-loading"
+                id="obra-loading"
+            >
+                Carregando informações da obra...
+            </div>
+
+
+            <!-- ERRO -->
+
+            <div
+                class="obra-error"
+                id="obra-error"
+                hidden
+            >
+                <span class="material-symbols-outlined">
+                    error
+                </span>
+
+                <div>
+                    <strong>
+                        Não foi possível abrir essa obra.
+                    </strong>
+
+                    <p id="obra-error-text">
+                        Verifique se a obra existe.
+                    </p>
+                </div>
+            </div>
+
+
+            <!-- CONTEÚDO -->
+
+            <div
+                id="obra-conteudo"
+                hidden
+            >
+
+                <!-- =================================================
+                     CABEÇALHO DA OBRA
+                ================================================== -->
+
+                <section class="obra-hero">
+
+                    <div class="obra-hero-main">
+
+                        <span class="obra-hero-icon">
+                            <span class="material-symbols-outlined">
+                                architecture
+                            </span>
+                        </span>
+
+                        <div class="obra-hero-copy">
+
+                            <div class="obra-badges">
+
+                                <span
+                                    class="status-badge"
+                                    id="obra-status"
+                                >
+                                    Status
+                                </span>
+
+                                <span
+                                    class="obra-tipo-badge"
+                                    id="obra-tipo"
+                                >
+                                    Tipo
+                                </span>
+
+                            </div>
+
+                            <h2 id="obra-nome">
+                                Nome da obra
+                            </h2>
+
+                            <p class="obra-endereco">
+
+                                <span class="material-symbols-outlined">
+                                    location_on
+                                </span>
+
+                                <span id="obra-endereco">
+                                    —
+                                </span>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="obra-hero-actions">
+
+                        <button
+                            class="button button-primary"
+                            type="button"
+                            onclick="abrirRegistroObra()"
+                        >
+                            <span class="material-symbols-outlined">
+                                add_notes
+                            </span>
+
+                            Registro do dia
+                        </button>
+
+                        <button
+                            class="button manuca-button"
+                            type="button"
+                            onclick="abrirManuca()"
+                        >
+                            <span class="material-symbols-outlined">
+                                auto_awesome
+                            </span>
+
+                            Manuca IA
+                        </button>
+
+                        <button
+                            class="button button-ghost"
+                            type="button"
+                            id="btn-editar-obra"
+                            onclick="mostrarToast('Edição da obra entra em seguida.')"
+                        >
+                            <span class="material-symbols-outlined">
+                                edit
+                            </span>
+
+                            Editar obra
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     INFORMAÇÕES DO PLANEJAMENTO
+                ================================================== -->
+
+                <section class="obra-metricas">
+
+                    <article class="obra-metrica">
+
+                        <span class="obra-metrica-icon">
+                            <span class="material-symbols-outlined">
+                                calendar_month
+                            </span>
+                        </span>
+
+                        <div>
+                            <span>Início</span>
+                            <strong id="obra-inicio">—</strong>
+                        </div>
+
+                    </article>
+
+
+                    <article class="obra-metrica">
+
+                        <span class="obra-metrica-icon">
+                            <span class="material-symbols-outlined">
+                                event_available
+                            </span>
+                        </span>
+
+                        <div>
+                            <span>Previsão de conclusão</span>
+                            <strong id="obra-previsao">—</strong>
+                        </div>
+
+                    </article>
+
+
+                    <article class="obra-metrica">
+
+                        <span class="obra-metrica-icon">
+                            <span class="material-symbols-outlined">
+                                payments
+                            </span>
+                        </span>
+
+                        <div>
+                            <span>Orçamento previsto</span>
+                            <strong id="obra-orcamento">—</strong>
+                        </div>
+
+                    </article>
+
+
+                    <article class="obra-metrica">
+
+                        <span class="obra-metrica-icon">
+                            <span class="material-symbols-outlined">
+                                schedule
+                            </span>
+                        </span>
+
+                        <div>
+                            <span>Prazo planejado</span>
+                            <strong id="obra-prazo">—</strong>
+                        </div>
+
+                    </article>
+
+                </section>
+
+
+                <!-- =================================================
+                     INDICADORES OPERACIONAIS
+                ================================================== -->
+
+                <section class="operacao-grid">
+
+                    <button
+                        class="operacao-card"
+                        type="button"
+                        onclick="abrirTab('equipe')"
+                    >
+                        <span class="operacao-icon">
+                            <span class="material-symbols-outlined">
+                                engineering
+                            </span>
+                        </span>
+
+                        <span class="operacao-copy">
+                            <span>Equipe hoje</span>
+                            <strong id="operacao-equipe">0</strong>
+                            <small>pessoas registradas</small>
+                        </span>
+
+                        <span class="material-symbols-outlined operacao-arrow">
+                            arrow_forward
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="operacao-card"
+                        type="button"
+                        onclick="abrirTab('materiais')"
+                    >
+                        <span class="operacao-icon">
+                            <span class="material-symbols-outlined">
+                                inventory_2
+                            </span>
+                        </span>
+
+                        <span class="operacao-copy">
+                            <span>Materiais</span>
+                            <strong id="operacao-materiais">0</strong>
+                            <small>itens cadastrados</small>
+                        </span>
+
+                        <span class="material-symbols-outlined operacao-arrow">
+                            arrow_forward
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="operacao-card"
+                        type="button"
+                        onclick="abrirTab('diario')"
+                    >
+                        <span class="operacao-icon">
+                            <span class="material-symbols-outlined">
+                                history_edu
+                            </span>
+                        </span>
+
+                        <span class="operacao-copy">
+                            <span>Registros</span>
+                            <strong id="operacao-registros">0</strong>
+                            <small>registros da obra</small>
+                        </span>
+
+                        <span class="material-symbols-outlined operacao-arrow">
+                            arrow_forward
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="operacao-card"
+                        type="button"
+                        onclick="abrirTab('cronograma')"
+                    >
+                        <span class="operacao-icon">
+                            <span class="material-symbols-outlined">
+                                monitoring
+                            </span>
+                        </span>
+
+                        <span class="operacao-copy">
+                            <span>Progresso</span>
+                            <strong id="operacao-progresso">0%</strong>
+                            <small>execução da obra</small>
+                        </span>
+
+                        <span class="material-symbols-outlined operacao-arrow">
+                            arrow_forward
+                        </span>
+                    </button>
+
+                </section>
+
+
+                <!-- =================================================
+                     NAVEGAÇÃO DA OBRA
+                ================================================== -->
+
+                <nav class="obra-tabs">
+
+                    <button
+                        class="obra-tab active"
+                        type="button"
+                        data-tab="visao-geral"
+                    >
+                        Visão geral
+                    </button>
+
+                    <button
+                        class="obra-tab"
+                        type="button"
+                        data-tab="cronograma"
+                    >
+                        Cronograma
+                    </button>
+
+                    <button
+                        class="obra-tab"
+                        type="button"
+                        data-tab="diario"
+                    >
+                        Diário
+                    </button>
+
+                    <button
+                        class="obra-tab"
+                        type="button"
+                        data-tab="equipe"
+                    >
+                        Equipe
+                    </button>
+
+                    <button
+                        class="obra-tab"
+                        type="button"
+                        data-tab="materiais"
+                    >
+                        Materiais
+                    </button>
+
+                    <button
+                        class="obra-tab"
+                        type="button"
+                        data-tab="financeiro"
+                    >
+                        Financeiro
+                    </button>
+
+                </nav>
+
+
+                <!-- =================================================
+                     VISÃO GERAL
+                ================================================== -->
+
+                <section
+                    class="obra-tab-content active"
+                    data-tab-content="visao-geral"
+                >
+
+                    <div class="obra-content-grid">
+
+                        <section class="panel obra-progresso-panel">
+
+                            <div class="obra-panel-header">
+
+                                <div>
+                                    <span class="section-kicker">
+                                        Execução
+                                    </span>
+
+                                    <h3>
+                                        Progresso da obra
+                                    </h3>
+                                </div>
+
+                                <button
+                                    class="text-button"
+                                    type="button"
+                                    onclick="abrirTab('cronograma')"
+                                >
+                                    Ver cronograma
+
+                                    <span class="material-symbols-outlined">
+                                        arrow_forward
+                                    </span>
+                                </button>
+
+                            </div>
+
+                            <div class="progresso-body">
+
+                                <div class="progresso-resumo">
+
+                                    <div class="progresso-numero">
+                                        <strong id="progresso-percentual">
+                                            0%
+                                        </strong>
+
+                                        <span>
+                                            concluído
+                                        </span>
+                                    </div>
+
+                                    <div class="progresso-barra">
+                                        <span
+                                            id="progresso-barra-preenchimento"
+                                            style="width: 0%"
+                                        ></span>
+                                    </div>
+
+                                </div>
+
+                                <div class="modulo-pendente">
+
+                                    <span class="material-symbols-outlined">
+                                        account_tree
+                                    </span>
+
+                                    <div>
+                                        <strong>
+                                            Etapas ainda não conectadas
+                                        </strong>
+
+                                        <p>
+                                            Assim que ligarmos a tabela de etapas,
+                                            o progresso passará a ser calculado
+                                            automaticamente.
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <aside class="panel obra-info-panel">
+
+                            <div class="obra-panel-header">
+
+                                <div>
+                                    <span class="section-kicker">
+                                        Cadastro
+                                    </span>
+
+                                    <h3>
+                                        Informações da obra
+                                    </h3>
+                                </div>
+
+                            </div>
+
+                            <div class="obra-dados-lista">
+
+                                <div>
+                                    <span>ID da obra</span>
+                                    <strong id="obra-id">—</strong>
+                                </div>
+
+                                <div>
+                                    <span>Tipo</span>
+                                    <strong id="obra-tipo-info">—</strong>
+                                </div>
+
+                                <div>
+                                    <span>Status</span>
+                                    <strong id="obra-status-info">—</strong>
+                                </div>
+
+                                <div>
+                                    <span>Data de conclusão</span>
+                                    <strong id="obra-conclusao">—</strong>
+                                </div>
+
+                            </div>
+
+                        </aside>
+
+                    </div>
+
+
+                    <section class="panel obra-modulos-panel">
+
+                        <div class="obra-panel-header">
+
+                            <div>
+                                <span class="section-kicker">
+                                    Gestão
+                                </span>
+
+                                <h3>
+                                    Módulos da obra
+                                </h3>
+                            </div>
+
+                        </div>
+
+
+                        <div class="obra-modulos-grid">
+
+                            <button
+                                class="obra-modulo"
+                                type="button"
+                                data-abrir-tab="cronograma"
+                            >
+                                <span class="material-symbols-outlined">
+                                    account_tree
+                                </span>
+
+                                <strong>Cronograma</strong>
+                                <small>Etapas e atividades</small>
+                            </button>
+
+
+                            <button
+                                class="obra-modulo"
+                                type="button"
+                                data-abrir-tab="diario"
+                            >
+                                <span class="material-symbols-outlined">
+                                    edit_note
+                                </span>
+
+                                <strong>Diário</strong>
+                                <small>Registros diários</small>
+                            </button>
+
+
+                            <button
+                                class="obra-modulo"
+                                type="button"
+                                data-abrir-tab="equipe"
+                            >
+                                <span class="material-symbols-outlined">
+                                    groups
+                                </span>
+
+                                <strong>Equipe</strong>
+                                <small>Pessoas e funções</small>
+                            </button>
+
+
+                            <button
+                                class="obra-modulo"
+                                type="button"
+                                data-abrir-tab="materiais"
+                            >
+                                <span class="material-symbols-outlined">
+                                    inventory_2
+                                </span>
+
+                                <strong>Materiais</strong>
+                                <small>Estoque e movimentações</small>
+                            </button>
+
+
+                            <button
+                                class="obra-modulo"
+                                type="button"
+                                data-abrir-tab="financeiro"
+                            >
+                                <span class="material-symbols-outlined">
+                                    account_balance_wallet
+                                </span>
+
+                                <strong>Financeiro</strong>
+                                <small>Entradas e despesas</small>
+                            </button>
+
+
+                            <button
+                                class="obra-modulo obra-modulo-manuca"
+                                type="button"
+                                onclick="abrirManuca()"
+                            >
+                                <span class="material-symbols-outlined">
+                                    auto_awesome
+                                </span>
+
+                                <strong>Manuca IA</strong>
+                                <small>Assistente inteligente da obra</small>
+                            </button>
+
+                        </div>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =================================================
+                     CRONOGRAMA
+                ================================================== -->
+
+                <section
+                    class="obra-tab-content"
+                    data-tab-content="cronograma"
+                >
+
+                    <section class="panel modulo-panel">
+
+                        <div class="modulo-header">
+
+                            <div>
+                                <span class="section-kicker">
+                                    Planejamento
+                                </span>
+
+                                <h3>
+                                    Cronograma e etapas
+                                </h3>
+
+                                <p>
+                                    Acompanhe previsto, realizado e evolução
+                                    das etapas da obra.
+                                </p>
+                            </div>
+
+                            <button
+                                class="button button-primary"
+                                type="button"
+                                onclick="mostrarToast('Vamos conectar as etapas ao backend em seguida.')"
+                            >
+                                <span class="material-symbols-outlined">
+                                    add
+                                </span>
+
+                                Nova etapa
+                            </button>
+
+                        </div>
+
+                        <div class="modulo-vazio">
+
+                            <span class="material-symbols-outlined">
+                                account_tree
+                            </span>
+
+                            <strong>
+                                Nenhuma etapa carregada ainda
+                            </strong>
+
+                            <p>
+                                A tabela de etapas já poderá alimentar esta
+                                área quando ligarmos os endpoints.
+                            </p>
+
+                        </div>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =================================================
+                     DIÁRIO
+                ================================================== -->
+
+                <section
+                    class="obra-tab-content"
+                    data-tab-content="diario"
+                >
+
+                    <section class="panel modulo-panel">
+
+                        <div class="modulo-header">
+
+                            <div>
+                                <span class="section-kicker">
+                                    Histórico
+                                </span>
+
+                                <h3>
+                                    Registros da obra
+                                </h3>
+
+                                <p>
+                                    Serviços executados, equipe, materiais,
+                                    ocorrências e observações do dia.
+                                </p>
+                            </div>
+
+                            <button
+                                class="button button-primary"
+                                type="button"
+                                onclick="abrirRegistroObra()"
+                            >
+                                <span class="material-symbols-outlined">
+                                    add_notes
+                                </span>
+
+                                Novo registro
+                            </button>
+
+                        </div>
+
+                        <div class="modulo-vazio">
+
+                            <span class="material-symbols-outlined">
+                                history_edu
+                            </span>
+
+                            <strong>
+                                Nenhum registro salvo ainda
+                            </strong>
+
+                            <p>
+                                Os registros aparecerão aqui em ordem
+                                cronológica quando criarmos o módulo no banco.
+                            </p>
+
+                        </div>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =================================================
+                     EQUIPE
+                ================================================== -->
+
+                <section
+                    class="obra-tab-content"
+                    data-tab-content="equipe"
+                >
+
+                    <section class="panel modulo-panel">
+
+                        <div class="modulo-header">
+
+                            <div>
+                                <span class="section-kicker">
+                                    Pessoas
+                                </span>
+
+                                <h3>
+                                    Equipe da obra
+                                </h3>
+
+                                <p>
+                                    Cadastre profissionais, funções e
+                                    acompanhe presença na obra.
+                                </p>
+                            </div>
+
+                            <button
+                                class="button button-primary"
+                                type="button"
+                                onclick="mostrarToast('Cadastro de equipe será ligado ao banco no próximo módulo.')"
+                            >
+                                <span class="material-symbols-outlined">
+                                    person_add
+                                </span>
+
+                                Adicionar pessoa
+                            </button>
+
+                        </div>
+
+                        <div class="modulo-vazio">
+
+                            <span class="material-symbols-outlined">
+                                groups
+                            </span>
+
+                            <strong>
+                                Nenhuma pessoa vinculada
+                            </strong>
+
+                            <p>
+                                O total de funcionários será calculado a
+                                partir das pessoas e presenças registradas,
+                                sem números duplicados.
+                            </p>
+
+                        </div>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =================================================
+                     MATERIAIS
+                ================================================== -->
+
+                <section
+                    class="obra-tab-content"
+                    data-tab-content="materiais"
+                >
+
+                    <section class="panel modulo-panel">
+
+                        <div class="modulo-header">
+
+                            <div>
+                                <span class="section-kicker">
+                                    Estoque
+                                </span>
+
+                                <h3>
+                                    Materiais
+                                </h3>
+
+                                <p>
+                                    Controle entradas, consumo, saldo e custo
+                                    dos materiais da obra.
+                                </p>
+                            </div>
+
+                            <button
+                                class="button button-primary"
+                                type="button"
+                                onclick="mostrarToast('Cadastro de materiais será ligado ao banco no próximo módulo.')"
+                            >
+                                <span class="material-symbols-outlined">
+                                    add_box
+                                </span>
+
+                                Adicionar material
+                            </button>
+
+                        </div>
+
+                        <div class="modulo-vazio">
+
+                            <span class="material-symbols-outlined">
+                                inventory_2
+                            </span>
+
+                            <strong>
+                                Nenhum material cadastrado
+                            </strong>
+
+                            <p>
+                                O saldo será calculado pelas entradas e
+                                consumos, sem armazenar um valor manual
+                                redundante.
+                            </p>
+
+                        </div>
+
+                    </section>
+
+                </section>
+
+
+                <!-- =================================================
+                     FINANCEIRO
+                ================================================== -->
+
+                <section
+                    class="obra-tab-content"
+                    data-tab-content="financeiro"
+                >
+
+                    <section class="panel modulo-panel">
+
+                        <div class="modulo-header">
+
+                            <div>
+                                <span class="section-kicker">
+                                    Financeiro
+                                </span>
+
+                                <h3>
+                                    Movimentações financeiras
+                                </h3>
+
+                                <p>
+                                    Entradas, despesas e comparação com o
+                                    orçamento previsto da obra.
+                                </p>
+                            </div>
+
+                            <button
+                                class="button button-primary"
+                                type="button"
+                                onclick="mostrarToast('Lançamentos financeiros entram em uma próxima etapa.')"
+                            >
+                                <span class="material-symbols-outlined">
+                                    add_card
+                                </span>
+
+                                Novo lançamento
+                            </button>
+
+                        </div>
+
+                        <div class="modulo-vazio">
+
+                            <span class="material-symbols-outlined">
+                                account_balance_wallet
+                            </span>
+
+                            <strong>
+                                Nenhuma movimentação registrada
+                            </strong>
+
+                            <p>
+                                O saldo será derivado das entradas e saídas
+                                registradas no banco.
+                            </p>
+
+                        </div>
+
+                    </section>
+
+                </section>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =====================================================
+     MODAL - REGISTRO DO DIA
+====================================================== -->
+
+<div
+    class="registro-overlay"
+    id="modal-registro-obra"
+    aria-hidden="true"
+>
+    <div
+        class="registro-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="registro-modal-title"
+    >
+
+        <div class="registro-header">
+
+            <div>
+                <span class="section-kicker">
+                    Diário de obra
+                </span>
+
+                <h2 id="registro-modal-title">
+                    Registro do dia
+                </h2>
+
+                <p>
+                    Registre rapidamente o que aconteceu na obra.
+                </p>
+            </div>
+
+            <button
+                class="registro-close"
+                type="button"
+                onclick="fecharRegistroObra()"
+                aria-label="Fechar"
+            >
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+
+        </div>
+
+
+        <form id="form-registro-obra">
+
+            <div class="registro-grid">
+
+                <div class="form-group">
+                    <label for="registro-data">
+                        Data *
+                    </label>
+
+                    <input
+                        id="registro-data"
+                        type="date"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="registro-equipe">
+                        Pessoas na obra
+                    </label>
+
+                    <input
+                        id="registro-equipe"
+                        type="number"
+                        min="0"
+                        step="1"
+                        placeholder="0"
+                    >
+                </div>
+
+                <div class="form-group form-full">
+                    <label for="registro-servicos">
+                        Serviços executados *
+                    </label>
+
+                    <textarea
+                        id="registro-servicos"
+                        rows="4"
+                        placeholder="Descreva os serviços executados no dia..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="form-group form-full">
+                    <label for="registro-materiais">
+                        Materiais utilizados
+                    </label>
+
+                    <textarea
+                        id="registro-materiais"
+                        rows="3"
+                        placeholder="Ex.: 20 sacos de cimento, 2 m³ de areia..."
+                    ></textarea>
+                </div>
+
+                <div class="form-group form-full">
+                    <label for="registro-ocorrencias">
+                        Ocorrências e observações
+                    </label>
+
+                    <textarea
+                        id="registro-ocorrencias"
+                        rows="3"
+                        placeholder="Atrasos, imprevistos, decisões, observações..."
+                    ></textarea>
+                </div>
+
+            </div>
+
+            <div class="registro-aviso">
+                <span class="material-symbols-outlined">
+                    database
+                </span>
+
+                <span>
+                    A interface já está pronta. A persistência deste
+                    registro será conectada quando criarmos o módulo
+                    de diário no backend.
+                </span>
+            </div>
+
+            <div class="registro-footer">
+
+                <button
+                    class="button button-ghost"
+                    type="button"
+                    onclick="fecharRegistroObra()"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    class="button button-primary"
+                    type="submit"
+                >
+                    <span class="material-symbols-outlined">
+                        save
+                    </span>
+
+                    Salvar registro
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<!-- =====================================================
+     PAINEL - MANUCA IA
+====================================================== -->
+
+<div
+    class="manuca-overlay"
+    id="manuca-overlay"
+    aria-hidden="true"
+    onclick="fecharManucaPorFora(event)"
+>
+    <aside class="manuca-drawer">
+
+        <div class="manuca-header">
+
+            <div class="manuca-identidade">
+
+                <span class="manuca-avatar">
+                    <span class="material-symbols-outlined">
+                        auto_awesome
+                    </span>
+                </span>
+
+                <div>
+                    <strong>Manuca IA</strong>
+                    <span>Assistente inteligente da obra</span>
+                </div>
+
+            </div>
+
+            <button
+                class="registro-close"
+                type="button"
+                onclick="fecharManuca()"
+            >
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+
+        </div>
+
+        <div class="manuca-contexto">
+
+            <span>
+                Obra atual
+            </span>
+
+            <strong id="manuca-obra-nome">
+                —
+            </strong>
+
+        </div>
+
+        <div class="manuca-chat">
+
+            <div class="manuca-message">
+
+                <span class="manuca-avatar pequeno">
+                    <span class="material-symbols-outlined">
+                        auto_awesome
+                    </span>
+                </span>
+
+                <div>
+                    <strong>Manuca</strong>
+
+                    <p>
+                        Olá! No próximo passo vamos conectar este painel
+                        ao Gemini e aos dados reais da obra para fazer
+                        análises de prazo, materiais, equipe, orçamento,
+                        riscos e próximas etapas.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="manuca-sugestoes">
+
+                <button type="button" disabled>
+                    Analisar andamento
+                </button>
+
+                <button type="button" disabled>
+                    Ver riscos da obra
+                </button>
+
+                <button type="button" disabled>
+                    Analisar orçamento
+                </button>
+
+                <button type="button" disabled>
+                    Planejar próximas etapas
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="manuca-composer">
+
+            <input
+                type="text"
+                placeholder="Pergunte ao Manuca..."
+                disabled
+            >
+
+            <button
+                type="button"
+                class="button button-primary"
+                disabled
+            >
+                <span class="material-symbols-outlined">
+                    send
+                </span>
+            </button>
+
+        </div>
+
+    </aside>
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+    role="status"
+    aria-live="polite"
+>
+    <span class="material-symbols-outlined">
+        check_circle
+    </span>
+
+    <span id="toast-text">
+        Tudo certo.
+    </span>
+</div>
+
+
+<script src="../../../shared/api.js"></script>
+<script src="detalhe.js"></script>
+
+</body>
+</html>

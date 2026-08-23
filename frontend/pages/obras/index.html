@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Obras | Obra Fácil</title>
+
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    >
+
+
+    <!-- Reutilizamos o layout atual -->
+    <link
+        rel="stylesheet"
+        href="../../style.css"
+    >
+
+    <!-- CSS exclusivo da página Obras -->
+    <link
+        rel="stylesheet"
+        href="obras.css"
+    >
+</head>
+
+
+<body>
+
+    <div class="app-shell">
+
+
+        <!-- ============================
+             SIDEBAR
+        ============================= -->
+
+        <aside
+            class="sidebar"
+            id="sidebar"
+        >
+
+            <div class="brand-row">
+
+                <a
+                    class="brand"
+                    href="../../index.html"
+                    aria-label="Obra Fácil"
+                >
+
+                    <img
+                        src="../../assets/logo_sem_fundo.png"
+                        alt="Obra Fácil"
+                        class="brand-logo"
+                    >
+
+                    <span class="brand-copy">
+
+                        <strong>
+                            Obra Fácil
+                        </strong>
+
+                        <small>
+                            Gestão de obras
+                        </small>
+
+                    </span>
+
+                </a>
+
+
+                <button
+                    class="icon-button sidebar-toggle"
+                    id="btn-toggle"
+                    type="button"
+                >
+                    <span class="material-symbols-outlined">
+                        left_panel_close
+                    </span>
+                </button>
+
+            </div>
+
+
+            <nav
+                class="menu"
+                aria-label="Menu principal"
+            >
+
+                <a
+                    href="../../index.html"
+                    class="menu-item"
+                >
+                    <span class="material-symbols-outlined">
+                        space_dashboard
+                    </span>
+
+                    <span class="menu-label">
+                        Visão geral
+                    </span>
+                </a>
+
+
+                <a
+                    href="index.html"
+                    class="menu-item active"
+                >
+                    <span class="material-symbols-outlined">
+                        construction
+                    </span>
+
+                    <span class="menu-label">
+                        Obras
+                    </span>
+                </a>
+
+
+                <a
+                    href="#"
+                    class="menu-item"
+                >
+                    <span class="material-symbols-outlined">
+                        edit_note
+                    </span>
+
+                    <span class="menu-label">
+                        Diário
+                    </span>
+                </a>
+
+
+                <a
+                    href="#"
+                    class="menu-item"
+                >
+                    <span class="material-symbols-outlined">
+                        inventory_2
+                    </span>
+
+                    <span class="menu-label">
+                        Materiais
+                    </span>
+                </a>
+
+
+                <a
+                    href="#"
+                    class="menu-item"
+                >
+                    <span class="material-symbols-outlined">
+                        groups
+                    </span>
+
+                    <span class="menu-label">
+                        Equipe
+                    </span>
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-footer">
+
+                <button
+                    class="menu-item menu-button"
+                    type="button"
+                >
+
+                    <span class="material-symbols-outlined">
+                        settings
+                    </span>
+
+                    <span class="menu-label">
+                        Configurações
+                    </span>
+
+                </button>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- ============================
+             CONTEÚDO
+        ============================= -->
+
+        <main class="main-area">
+
+
+            <!-- HEADER -->
+
+            <header class="topbar">
+
+                <div class="topbar-title">
+
+                    <span class="eyebrow">
+                        Gestão
+                    </span>
+
+                    <h1>
+                        Obras
+                    </h1>
+
+                </div>
+
+
+                <div class="topbar-actions">
+
+                    <button
+                        class="button button-primary"
+                        id="btn-nova-obra"
+                        type="button"
+                    >
+
+                        <span class="material-symbols-outlined">
+                            add_business
+                        </span>
+
+                        <span class="btn-label">
+                            Nova obra
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- PÁGINA -->
+
+            <section class="page-content">
+
+
+                <div class="obras-page-header">
+
+                    <div>
+
+                        <p class="welcome-kicker">
+                            Gestão de obras
+                        </p>
+
+                        <h2>
+                            Todas as obras
+                        </h2>
+
+                        <p class="page-subtitle">
+                            Consulte e acompanhe as obras cadastradas na plataforma.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- MÉTRICAS -->
+
+                <div class="obras-resumo-grid">
+
+                    <article class="obra-resumo-card">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <strong id="resumo-total">
+                            0
+                        </strong>
+
+                    </article>
+
+
+                    <article class="obra-resumo-card">
+
+                        <span>
+                            Planejamento
+                        </span>
+
+                        <strong id="resumo-planejamento">
+                            0
+                        </strong>
+
+                    </article>
+
+
+                    <article class="obra-resumo-card">
+
+                        <span>
+                            Em andamento
+                        </span>
+
+                        <strong id="resumo-andamento">
+                            0
+                        </strong>
+
+                    </article>
+
+
+                    <article class="obra-resumo-card">
+
+                        <span>
+                            Concluídas
+                        </span>
+
+                        <strong id="resumo-concluidas">
+                            0
+                        </strong>
+
+                    </article>
+
+                </div>
+
+
+
+                <!-- LISTA -->
+
+                <section class="panel obras-panel">
+
+
+                    <div class="obras-toolbar">
+
+
+                        <div class="obras-search">
+
+                            <span class="material-symbols-outlined">
+                                search
+                            </span>
+
+
+                            <input
+                                id="busca-obras"
+                                type="search"
+                                placeholder="Buscar obra por nome ou endereço..."
+                            >
+
+                        </div>
+
+
+                        <select id="filtro-status">
+
+                            <option value="">
+                                Todos os status
+                            </option>
+
+                            <option value="planejamento">
+                                Planejamento
+                            </option>
+
+                            <option value="andamento">
+                                Em andamento
+                            </option>
+
+                            <option value="pausada">
+                                Pausada
+                            </option>
+
+                            <option value="concluida">
+                                Concluída
+                            </option>
+
+                        </select>
+
+
+                        <select id="filtro-tipo">
+
+                            <option value="">
+                                Todos os tipos
+                            </option>
+
+                            <option value="construcao">
+                                Construção
+                            </option>
+
+                            <option value="reforma">
+                                Reforma
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <div
+                        class="obras-list"
+                        id="lista-obras-page"
+                    >
+
+                        <div class="empty-state">
+                            Carregando obras...
+                        </div>
+
+                    </div>
+
+
+                </section>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MODAL - RESUMO DA OBRA
+    ====================================================== -->
+
+    <div
+        class="obra-modal-overlay"
+        id="modal-resumo-obra"
+        aria-hidden="true"
+    >
+        <div
+            class="obra-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-obra-nome"
+        >
+
+            <div class="obra-modal-header">
+
+                <div class="obra-modal-titulo">
+
+                    <span class="obra-modal-icon">
+                        <span class="material-symbols-outlined">
+                            architecture
+                        </span>
+                    </span>
+
+                    <div>
+                        <span class="section-kicker">
+                            Resumo da obra
+                        </span>
+
+                        <h2 id="modal-obra-nome">
+                            Obra
+                        </h2>
+
+                        <p id="modal-obra-endereco">
+                            Endereço
+                        </p>
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="obra-modal-close"
+                    onclick="fecharResumoObra()"
+                    aria-label="Fechar resumo da obra"
+                >
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+                </button>
+
+            </div>
+
+            <div class="obra-modal-status-row">
+
+                <span
+                    class="status-badge"
+                    id="modal-obra-status"
+                >
+                    Status
+                </span>
+
+                <span id="modal-obra-tipo">
+                    Tipo
+                </span>
+
+            </div>
+
+            <div class="obra-modal-info-grid">
+
+                <div class="obra-modal-info">
+                    <span>Início</span>
+                    <strong id="modal-obra-inicio">—</strong>
+                </div>
+
+                <div class="obra-modal-info">
+                    <span>Previsão de conclusão</span>
+                    <strong id="modal-obra-previsao">—</strong>
+                </div>
+
+                <div class="obra-modal-info">
+                    <span>Orçamento previsto</span>
+                    <strong id="modal-obra-orcamento">—</strong>
+                </div>
+
+                <div class="obra-modal-info">
+                    <span>Identificação</span>
+                    <strong id="modal-obra-id">—</strong>
+                </div>
+
+            </div>
+
+            <div class="obra-modal-placeholder">
+
+                <span class="material-symbols-outlined">
+                    timeline
+                </span>
+
+                <div>
+                    <strong>Progresso da obra</strong>
+                    <p>
+                        Etapas e percentual serão exibidos aqui quando conectarmos o cronograma.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="obra-modal-footer">
+
+                <button
+                    type="button"
+                    class="button button-ghost"
+                    onclick="fecharResumoObra()"
+                >
+                    Fechar
+                </button>
+
+                <button
+                    type="button"
+                    class="button button-primary"
+                    id="btn-ver-detalhes-obra"
+                >
+                    Ver detalhes da obra
+
+                    <span class="material-symbols-outlined">
+                        arrow_forward
+                    </span>
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Primeiro a API compartilhada -->
+    <script src="../../shared/api.js"></script>
+
+    <!-- Depois o JS exclusivo de Obras -->
+    <script src="obras.js"></script>
+
+</body>
+
+</html>

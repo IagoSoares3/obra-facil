@@ -1,0 +1,17 @@
+# Python
+backend/.venv/
+backend/__pycache__/
+backend/app/__pycache__/
+backend/app/**/__pycache__/
+*.pyc
+
+# Variáveis privadas
+backend/.env
+.env
+
+# VS Code
+.vscode/
+
+# Sistema
+.DS_Store
+Thumbs.db
