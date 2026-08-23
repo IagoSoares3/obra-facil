@@ -19,12 +19,12 @@ app.add_middleware(
     allow_origins=[
         "http://127.0.0.1:5500",
         "http://localhost:5500",
+        "https://genuine-narwhal-aadffc.netlify.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 # Registra as rotas de obras
 app.include_router(obras_router)

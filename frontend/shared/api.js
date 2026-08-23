@@ -1,5 +1,10 @@
-const API_URL = "http://127.0.0.1:8000";
+const ESTA_LOCAL =
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname === "localhost";
 
+const API_URL = ESTA_LOCAL
+    ? "http://127.0.0.1:8000"
+    : "https://obra-facil-61gc.onrender.com";
 
 async function apiGet(endpoint) {
     const resposta = await fetch(
