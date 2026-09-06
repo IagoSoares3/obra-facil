@@ -11,7 +11,10 @@ from app.database import Base
 
 
 if TYPE_CHECKING:
+    from app.models.diario_obra import DiarioObra
     from app.models.etapa_obra import EtapaObra
+    from app.models.material_obra import MaterialObra
+    from app.models.pessoa_equipe import PessoaEquipe
 
 
 class Obra(Base):
@@ -89,4 +92,22 @@ class Obra(Base):
         back_populates="obra",
         cascade="all, delete-orphan",
         order_by="EtapaObra.ordem"
+    )
+
+    diarios: Mapped[list["DiarioObra"]] = relationship(
+        back_populates="obra",
+        cascade="all, delete-orphan",
+        order_by="DiarioObra.data.desc()"
+    )
+
+    materiais: Mapped[list["MaterialObra"]] = relationship(
+        back_populates="obra",
+        cascade="all, delete-orphan",
+        order_by="MaterialObra.nome"
+    )
+
+    equipe: Mapped[list["PessoaEquipe"]] = relationship(
+        back_populates="obra",
+        cascade="all, delete-orphan",
+        order_by="PessoaEquipe.nome"
     )

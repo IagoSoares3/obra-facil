@@ -603,3 +603,341 @@ body.modal-open {
         justify-content: center;
     }
 }
+/* =====================================================
+   MODAL - NOVA OBRA
+===================================================== */
+
+#modal-nova-obra {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    background: rgba(15, 23, 42, 0.58);
+    backdrop-filter: blur(5px);
+}
+
+
+#modal-nova-obra.open {
+    display: flex;
+}
+
+
+/* CARD */
+
+#modal-nova-obra .modal-card {
+    width: min(720px, 100%);
+    max-height: calc(100vh - 48px);
+
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 22px;
+
+    box-shadow:
+        0 30px 80px rgba(15, 23, 42, 0.28);
+
+    animation: modalNovaObraEntrada .18s ease;
+}
+
+
+@keyframes modalNovaObraEntrada {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+#modal-nova-obra .modal-header {
+    padding: 22px 24px 18px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+
+#modal-nova-obra .modal-header h2 {
+    margin: 4px 0 4px;
+
+    color: #0f172a;
+
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+
+#modal-nova-obra .modal-header p {
+    margin: 0;
+
+    color: #64748b;
+
+    font-size: .76rem;
+}
+
+
+#modal-nova-obra .section-kicker {
+    color: #94a3b8;
+
+    font-size: .65rem;
+    font-weight: 700;
+
+    letter-spacing: .05em;
+
+    text-transform: uppercase;
+}
+
+
+/* BOTÃO FECHAR */
+
+#modal-nova-obra .modal-close {
+    width: 40px;
+    height: 40px;
+
+    flex: 0 0 40px;
+
+    display: grid;
+    place-items: center;
+
+    border: 0;
+    border-radius: 11px;
+
+    background: #f8fafc;
+    color: #64748b;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        color .2s ease;
+}
+
+
+#modal-nova-obra .modal-close:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+
+/* =====================================================
+   FORMULÁRIO
+===================================================== */
+
+#modal-nova-obra .modal-body {
+    padding: 24px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+#modal-nova-obra .form-group {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+#modal-nova-obra .form-full {
+    grid-column: 1 / -1;
+}
+
+
+#modal-nova-obra .form-group label {
+    color: #334155;
+
+    font-size: .72rem;
+    font-weight: 700;
+}
+
+
+#modal-nova-obra .form-group input,
+#modal-nova-obra .form-group select {
+    width: 100%;
+    height: 46px;
+
+    box-sizing: border-box;
+
+    padding: 0 13px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 11px;
+
+    outline: none;
+
+    background: #ffffff;
+    color: #0f172a;
+
+    font-family: inherit;
+    font-size: .78rem;
+
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+
+#modal-nova-obra .form-group input::placeholder {
+    color: #94a3b8;
+}
+
+
+#modal-nova-obra .form-group input:focus,
+#modal-nova-obra .form-group select:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, .10);
+}
+
+
+/* ERRO */
+
+#modal-nova-obra .form-error {
+    min-height: 17px;
+
+    color: #dc2626;
+
+    font-size: .69rem;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+#modal-nova-obra .modal-footer {
+    padding: 16px 24px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    border-top: 1px solid #e2e8f0;
+
+    background: #ffffff;
+}
+
+
+#modal-nova-obra .modal-footer .button {
+    min-height: 42px;
+
+    padding: 0 17px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    border-radius: 11px;
+
+    font-family: inherit;
+    font-size: .74rem;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+#modal-nova-obra .modal-footer .button-primary {
+    border: 1px solid #fbbf24;
+
+    background: #fbbf24;
+    color: #0f172a;
+
+    box-shadow:
+        0 8px 20px rgba(245, 158, 11, .15);
+}
+
+
+#modal-nova-obra .modal-footer .button-primary:hover {
+    background: #f59e0b;
+}
+
+
+#modal-nova-obra .modal-footer .button-ghost {
+    border: 1px solid #e2e8f0;
+
+    background: #f8fafc;
+    color: #334155;
+}
+
+
+#modal-nova-obra .modal-footer .button-ghost:hover {
+    background: #f1f5f9;
+}
+
+
+/* =====================================================
+   RESPONSIVO
+===================================================== */
+
+@media (max-width: 650px) {
+
+    #modal-nova-obra {
+        padding: 12px;
+    }
+
+
+    #modal-nova-obra .modal-card {
+        max-height: calc(100vh - 24px);
+
+        border-radius: 17px;
+    }
+
+
+    #modal-nova-obra .modal-body {
+        grid-template-columns: 1fr;
+
+        padding: 20px;
+    }
+
+
+    #modal-nova-obra .form-full {
+        grid-column: auto;
+    }
+
+
+    #modal-nova-obra .modal-footer {
+        flex-direction: column-reverse;
+    }
+
+
+    #modal-nova-obra .modal-footer .button {
+        width: 100%;
+    }
+
+}

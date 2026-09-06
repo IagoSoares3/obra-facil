@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+
+    <title>Equipe | Obra Fácil</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    >
+
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../modulos.css">
+    <link rel="stylesheet" href="equipe.css">
+</head>
+
+<body class="equipe-page">
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand-row">
+                <a
+                    class="brand"
+                    href="../../index.html"
+                    aria-label="Obra Fácil"
+                >
+                    <img
+                        src="../../assets/logo_sem_fundo.png"
+                        alt="Obra Fácil"
+                        class="brand-logo"
+                    >
+
+                    <span class="brand-copy">
+                        <strong>Obra Fácil</strong>
+                        <small>Gestão de obras</small>
+                    </span>
+                </a>
+
+                <button
+                    class="icon-button sidebar-toggle"
+                    id="btn-toggle"
+                    type="button"
+                    aria-label="Recolher menu"
+                >
+                    <span class="material-symbols-outlined">
+                        left_panel_close
+                    </span>
+                </button>
+            </div>
+
+            <nav class="menu" aria-label="Menu principal">
+                <a href="../../index.html" class="menu-item">
+                    <span class="material-symbols-outlined">space_dashboard</span>
+                    <span class="menu-label">Visão geral</span>
+                </a>
+
+                <a href="../obras/index.html" class="menu-item">
+                    <span class="material-symbols-outlined">construction</span>
+                    <span class="menu-label">Obras</span>
+                </a>
+
+                <a href="../diario/index.html" class="menu-item">
+                    <span class="material-symbols-outlined">edit_note</span>
+                    <span class="menu-label">Diário</span>
+                </a>
+
+                <a href="../materiais/index.html" class="menu-item">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <span class="menu-label">Materiais</span>
+                </a>
+
+                <a href="index.html" class="menu-item active">
+                    <span class="material-symbols-outlined">groups</span>
+                    <span class="menu-label">Equipe</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="menu-item menu-button" type="button">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="menu-label">Configurações</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-area">
+            <header class="topbar">
+                <div class="topbar-title">
+                    <span class="eyebrow">Pessoas</span>
+                    <h1>Equipe</h1>
+                </div>
+
+                <div class="topbar-actions">
+                    <button
+                        class="button button-primary"
+                        id="btn-nova-pessoa"
+                        type="button"
+                    >
+                        <span class="material-symbols-outlined">person_add</span>
+                        <span class="btn-label">Adicionar pessoa</span>
+                    </button>
+                </div>
+            </header>
+
+            <section class="page-content">
+                <div class="operacional-page-header">
+                    <p class="welcome-kicker">Equipe de obra</p>
+                    <h2>Pessoas e funções</h2>
+                    <p class="page-subtitle">
+                        Consulte quem está vinculado a cada obra e mantenha função e contato à mão.
+                    </p>
+                </div>
+
+                <div class="operacional-resumo-grid">
+                    <article class="operacional-resumo-card">
+                        <span>Pessoas</span>
+                        <strong id="resumo-total">0</strong>
+                    </article>
+
+                    <article class="operacional-resumo-card">
+                        <span>Ativas</span>
+                        <strong id="resumo-ativas">0</strong>
+                    </article>
+
+                    <article class="operacional-resumo-card">
+                        <span>Funções</span>
+                        <strong id="resumo-funcoes">0</strong>
+                    </article>
+
+                    <article class="operacional-resumo-card">
+                        <span>Obras com equipe</span>
+                        <strong id="resumo-obras">0</strong>
+                    </article>
+                </div>
+
+                <div class="equipe-workspace">
+                    <section class="panel operacional-panel">
+                        <div class="operacional-toolbar">
+                            <div class="operacional-search">
+                                <span class="material-symbols-outlined">search</span>
+                                <input
+                                    id="busca-equipe"
+                                    type="search"
+                                    placeholder="Buscar por nome, função, contato ou obra..."
+                                >
+                            </div>
+
+                            <select id="filtro-obra">
+                                <option value="">Todas as obras</option>
+                            </select>
+
+                            <select id="filtro-funcao">
+                                <option value="">Todas as funções</option>
+                            </select>
+                        </div>
+
+                        <div
+                            class="operacional-list equipe-card-grid"
+                            id="lista-equipe"
+                        >
+                            <div class="empty-state">
+                                Carregando equipe...
+                            </div>
+                        </div>
+                    </section>
+
+                    <aside class="panel hierarquia-panel">
+                        <div class="hierarquia-header">
+                            <span class="material-symbols-outlined">
+                                account_tree
+                            </span>
+
+                            <div>
+                                <span class="section-kicker">
+                                    Hierarquia
+                                </span>
+
+                                <h3>
+                                    Cadeia de comando
+                                </h3>
+                            </div>
+                        </div>
+
+                        <div
+                            class="hierarquia-lista"
+                            id="lista-hierarquia"
+                        ></div>
+                    </aside>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div
+        class="modal-operacional-overlay"
+        id="modal-equipe"
+        aria-hidden="true"
+    >
+        <div
+            class="modal-operacional"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-equipe-titulo"
+        >
+            <div class="modal-operacional-header">
+                <div>
+                    <span class="section-kicker">Equipe</span>
+                    <h2 id="modal-equipe-titulo">Adicionar pessoa</h2>
+                    <p>Vincule uma pessoa à obra e registre sua função principal.</p>
+                </div>
+
+                <button
+                    class="modal-close"
+                    type="button"
+                    onclick="fecharModalEquipe()"
+                    aria-label="Fechar"
+                >
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <form id="form-equipe">
+                <div class="modal-operacional-body">
+                    <div class="form-group form-full">
+                        <label for="equipe-obra">Obra *</label>
+                        <select id="equipe-obra" required></select>
+                    </div>
+
+                    <div class="form-group form-full">
+                        <label for="equipe-nome">Nome *</label>
+                        <input
+                            id="equipe-nome"
+                            type="text"
+                            placeholder="Ex.: João Silva"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="equipe-funcao">Função</label>
+                        <input
+                            id="equipe-funcao"
+                            list="funcoes-equipe-list"
+                            type="text"
+                            placeholder="Ex.: Pedreiro"
+                        >
+
+                        <datalist id="funcoes-equipe-list"></datalist>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="equipe-contato">Contato</label>
+                        <input
+                            id="equipe-contato"
+                            type="text"
+                            placeholder="Telefone ou observação"
+                        >
+                    </div>
+
+                    <div
+                        class="form-error form-full"
+                        id="equipe-erro"
+                    ></div>
+                </div>
+
+                <div class="modal-operacional-footer">
+                    <button
+                        class="button button-ghost"
+                        type="button"
+                        onclick="fecharModalEquipe()"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        class="button button-primary"
+                        id="btn-salvar-equipe"
+                        type="submit"
+                    >
+                        <span class="material-symbols-outlined">save</span>
+                        Salvar pessoa
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">
+        <span class="material-symbols-outlined">check_circle</span>
+        <span id="toast-text">Tudo certo.</span>
+    </div>
+
+    <script src="../../shared/api.js"></script>
+    <script src="../../shared/ui.js"></script>
+    <script src="equipe.js"></script>
+</body>
+</html>

@@ -1,6 +1,10 @@
 let obras = [];
 
 
+// ======================================================
+// INICIALIZAÇÃO
+// ======================================================
+
 document.addEventListener(
     "DOMContentLoaded",
     async () => {
@@ -8,9 +12,24 @@ document.addEventListener(
         configurarSidebar();
         configurarFiltros();
 
+        configurarFormularioNovaObra();
+        configurarModalResumo();
+
+
+        document
+            .getElementById(
+                "btn-nova-obra"
+            )
+            ?.addEventListener(
+                "click",
+                abrirModalNovaObra
+            );
+
+
         await carregarObras();
 
         renderizarPagina();
+
     }
 );
 
@@ -23,12 +42,17 @@ async function carregarObras() {
 
     try {
 
-        obras = await apiGet("/obras");
+        obras =
+            await apiGet(
+                "/obras"
+            );
+
 
         console.log(
             "Obras carregadas:",
             obras
         );
+
 
     } catch (erro) {
 
@@ -37,17 +61,21 @@ async function carregarObras() {
             erro
         );
 
+
         obras = [];
+
 
         mostrarErro(
             "Não foi possível carregar as obras."
         );
+
     }
+
 }
 
 
 // ======================================================
-// RENDERIZAÇÃO
+// RENDERIZAÇÃO GERAL
 // ======================================================
 
 function renderizarPagina() {
@@ -59,6 +87,10 @@ function renderizarPagina() {
 }
 
 
+// ======================================================
+// RESUMO
+// ======================================================
+
 function renderizarResumo() {
 
     const total =
@@ -68,21 +100,24 @@ function renderizarResumo() {
     const planejamento =
         obras.filter(
             obra =>
-                obra.status === "planejamento"
+                obra.status ===
+                "planejamento"
         ).length;
 
 
     const andamento =
         obras.filter(
             obra =>
-                obra.status === "andamento"
+                obra.status ===
+                "andamento"
         ).length;
 
 
     const concluidas =
         obras.filter(
             obra =>
-                obra.status === "concluida"
+                obra.status ===
+                "concluida"
         ).length;
 
 
@@ -108,8 +143,13 @@ function renderizarResumo() {
         "resumo-concluidas"
     ).textContent =
         concluidas;
+
 }
 
+
+// ======================================================
+// LISTAGEM DE OBRAS
+// ======================================================
 
 function renderizarObras() {
 
@@ -117,6 +157,11 @@ function renderizarObras() {
         document.getElementById(
             "lista-obras-page"
         );
+
+
+    if (!lista) {
+        return;
+    }
 
 
     const busca =
@@ -141,40 +186,47 @@ function renderizarObras() {
         ).value;
 
 
-
     const filtradas =
-        obras.filter((obra) => {
+        obras.filter(
+            obra => {
 
-            const texto =
-                `${obra.nome} ${obra.endereco}`
-                    .toLowerCase();
-
-
-            const bateBusca =
-                !busca ||
-                texto.includes(busca);
+                const texto =
+                    `${obra.nome} ${obra.endereco}`
+                        .toLowerCase();
 
 
-            const bateStatus =
-                !status ||
-                obra.status === status;
+                const bateBusca =
+                    !busca ||
+                    texto.includes(
+                        busca
+                    );
 
 
-            const bateTipo =
-                !tipo ||
-                obra.tipo_obra === tipo;
+                const bateStatus =
+                    !status ||
+                    obra.status ===
+                        status;
 
 
-            return (
-                bateBusca &&
-                bateStatus &&
-                bateTipo
-            );
-        });
+                const bateTipo =
+                    !tipo ||
+                    obra.tipo_obra ===
+                        tipo;
 
 
+                return (
+                    bateBusca &&
+                    bateStatus &&
+                    bateTipo
+                );
 
-    if (filtradas.length === 0) {
+            }
+        );
+
+
+    if (
+        filtradas.length === 0
+    ) {
 
         lista.innerHTML = `
             <div class="empty-state">
@@ -182,9 +234,10 @@ function renderizarObras() {
             </div>
         `;
 
-        return;
-    }
 
+        return;
+
+    }
 
 
     lista.innerHTML =
@@ -232,9 +285,7 @@ function renderizarObras() {
                         </div>
 
 
-
                         <div class="obra-card-info">
-
 
                             <div>
 
@@ -295,9 +346,7 @@ function renderizarObras() {
 
                             </div>
 
-
                         </div>
-
 
 
                         <div class="obra-card-footer">
@@ -312,7 +361,6 @@ function renderizarObras() {
                                 <span class="material-symbols-outlined">
                                     arrow_forward
                                 </span>
-
                             </button>
 
                         </div>
@@ -321,6 +369,7 @@ function renderizarObras() {
                 `
             )
             .join("");
+
 }
 
 
@@ -334,7 +383,7 @@ function configurarFiltros() {
         .getElementById(
             "busca-obras"
         )
-        .addEventListener(
+        ?.addEventListener(
             "input",
             renderizarObras
         );
@@ -344,7 +393,7 @@ function configurarFiltros() {
         .getElementById(
             "filtro-status"
         )
-        .addEventListener(
+        ?.addEventListener(
             "change",
             renderizarObras
         );
@@ -354,10 +403,11 @@ function configurarFiltros() {
         .getElementById(
             "filtro-tipo"
         )
-        .addEventListener(
+        ?.addEventListener(
             "change",
             renderizarObras
         );
+
 }
 
 
@@ -379,7 +429,10 @@ function configurarSidebar() {
         );
 
 
-    if (!sidebar || !botao) {
+    if (
+        !sidebar ||
+        !botao
+    ) {
         return;
     }
 
@@ -414,6 +467,7 @@ function configurarSidebar() {
 
         }
     );
+
 }
 
 
@@ -424,24 +478,50 @@ function configurarSidebar() {
 function formatarTipo(tipo) {
 
     const tipos = {
-        construcao: "Construção",
-        reforma: "Reforma"
+
+        construcao:
+            "Construção",
+
+        reforma:
+            "Reforma"
+
     };
 
-    return tipos[tipo] ?? tipo;
+
+    return (
+        tipos[tipo] ??
+        tipo ??
+        "—"
+    );
+
 }
 
 
 function formatarStatus(status) {
 
     const statusMap = {
-        planejamento: "Planejamento",
-        andamento: "Em andamento",
-        pausada: "Pausada",
-        concluida: "Concluída"
+
+        planejamento:
+            "Planejamento",
+
+        andamento:
+            "Em andamento",
+
+        pausada:
+            "Pausada",
+
+        concluida:
+            "Concluída"
+
     };
 
-    return statusMap[status] ?? status;
+
+    return (
+        statusMap[status] ??
+        status ??
+        "—"
+    );
+
 }
 
 
@@ -451,10 +531,17 @@ function formatarData(data) {
         return "—";
     }
 
-    const [ano, mes, dia] =
+
+    const [
+        ano,
+        mes,
+        dia
+    ] =
         data.split("-");
 
+
     return `${dia}/${mes}/${ano}`;
+
 }
 
 
@@ -462,33 +549,41 @@ function formatarMoeda(valor) {
 
     if (
         valor === null ||
-        valor === undefined
+        valor === undefined ||
+        valor === ""
     ) {
+
         return "—";
+
     }
 
 
     return new Intl.NumberFormat(
         "pt-BR",
         {
-            style: "currency",
-            currency: "BRL"
+            style:
+                "currency",
+
+            currency:
+                "BRL"
         }
     ).format(
         Number(valor)
     );
+
 }
 
 
 // ======================================================
-// AÇÕES
+// MODAL RESUMO DA OBRA
 // ======================================================
 
 function abrirObra(id) {
 
     const obra =
         obras.find(
-            item => item.id === id
+            item =>
+                item.id === id
         );
 
 
@@ -499,7 +594,9 @@ function abrirObra(id) {
             id
         );
 
+
         return;
+
     }
 
 
@@ -570,33 +667,129 @@ function abrirObra(id) {
 
 
     /*
-        Botão para entrar na página
-        completa dessa obra.
+        Botão que entra na página
+        completa da obra.
     */
 
     document.getElementById(
         "btn-ver-detalhes-obra"
-    ).onclick = () => {
+    ).onclick =
+        () => {
 
-        window.location.href =
-            `detalhe/index.html?id=${obra.id}`;
+            window.location.href =
+                `detalhe/index.html?id=${obra.id}`;
 
-    };
+        };
 
 
-    document
-        .getElementById(
+    const modal =
+        document.getElementById(
             "modal-resumo-obra"
-        )
-        .classList
-        .add("open");
+        );
+
+
+    modal.classList.add(
+        "open"
+    );
+
+
+    modal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
 
 
     document.body.classList.add(
         "modal-open"
     );
+
 }
 
+
+function fecharResumoObra() {
+
+    const modal =
+        document.getElementById(
+            "modal-resumo-obra"
+        );
+
+
+    if (!modal) {
+        return;
+    }
+
+
+    modal.classList.remove(
+        "open"
+    );
+
+
+    modal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    document.body.classList.remove(
+        "modal-open"
+    );
+
+}
+
+
+function configurarModalResumo() {
+
+    const modal =
+        document.getElementById(
+            "modal-resumo-obra"
+        );
+
+
+    if (!modal) {
+        return;
+    }
+
+
+    modal.addEventListener(
+        "click",
+        evento => {
+
+            if (
+                evento.target === modal
+            ) {
+
+                fecharResumoObra();
+
+            }
+
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        evento => {
+
+            if (
+                evento.key === "Escape" &&
+                modal.classList.contains(
+                    "open"
+                )
+            ) {
+
+                fecharResumoObra();
+
+            }
+
+        }
+    );
+
+}
+
+
+// ======================================================
+// ERRO
+// ======================================================
 
 function mostrarErro(mensagem) {
 
@@ -605,23 +798,423 @@ function mostrarErro(mensagem) {
             "lista-obras-page"
         );
 
+
+    if (!lista) {
+        return;
+    }
+
+
     lista.innerHTML = `
         <div class="empty-state">
             ${mensagem}
         </div>
     `;
-}
-function fecharResumoObra() {
 
-    document
-        .getElementById(
-            "modal-resumo-obra"
-        )
-        .classList
-        .remove("open");
+}
+
+
+// ======================================================
+// NOVA OBRA - ABRIR MODAL
+// ======================================================
+
+function abrirModalNovaObra() {
+
+    const modal =
+        document.getElementById(
+            "modal-nova-obra"
+        );
+
+
+    const form =
+        document.getElementById(
+            "form-nova-obra"
+        );
+
+
+    const erro =
+        document.getElementById(
+            "nova-obra-erro"
+        );
+
+
+    if (
+        !modal ||
+        !form
+    ) {
+
+        console.error(
+            "Modal de nova obra não encontrado no HTML."
+        );
+
+
+        return;
+
+    }
+
+
+    form.reset();
+
+
+    if (erro) {
+
+        erro.textContent =
+            "";
+
+    }
+
+
+    const campoInicio =
+        document.getElementById(
+            "obra-data-inicio"
+        );
+
+
+    if (campoInicio) {
+
+        campoInicio.value =
+            new Date()
+                .toISOString()
+                .split("T")[0];
+
+    }
+
+
+    modal.classList.add(
+        "open"
+    );
+
+
+    modal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+
+    document.body.classList.add(
+        "modal-open"
+    );
+
+
+    setTimeout(
+        () => {
+
+            document.getElementById(
+                "obra-nome"
+            )?.focus();
+
+        },
+        100
+    );
+
+}
+
+
+// ======================================================
+// NOVA OBRA - FECHAR MODAL
+// ======================================================
+
+function fecharModalNovaObra() {
+
+    const modal =
+        document.getElementById(
+            "modal-nova-obra"
+        );
+
+
+    if (!modal) {
+        return;
+    }
+
+
+    modal.classList.remove(
+        "open"
+    );
+
+
+    modal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
 
 
     document.body.classList.remove(
         "modal-open"
     );
+
+}
+
+
+// ======================================================
+// NOVA OBRA - SALVAR
+// ======================================================
+
+function configurarFormularioNovaObra() {
+
+    const form =
+        document.getElementById(
+            "form-nova-obra"
+        );
+
+
+    const modal =
+        document.getElementById(
+            "modal-nova-obra"
+        );
+
+
+    if (
+        !form ||
+        !modal
+    ) {
+
+        console.warn(
+            "Formulário de nova obra não encontrado."
+        );
+
+
+        return;
+
+    }
+
+
+    form.addEventListener(
+        "submit",
+        async evento => {
+
+            evento.preventDefault();
+
+
+            const botao =
+                document.getElementById(
+                    "btn-salvar-obra"
+                );
+
+
+            const erro =
+                document.getElementById(
+                    "nova-obra-erro"
+                );
+
+
+            if (erro) {
+
+                erro.textContent =
+                    "";
+
+            }
+
+
+            const orcamento =
+                document.getElementById(
+                    "obra-orcamento"
+                ).value;
+
+
+            const previsao =
+                document.getElementById(
+                    "obra-data-previsao"
+                ).value;
+
+
+            const dados = {
+
+                nome:
+                    document
+                        .getElementById(
+                            "obra-nome"
+                        )
+                        .value
+                        .trim(),
+
+                tipo_obra:
+                    document
+                        .getElementById(
+                            "obra-tipo"
+                        )
+                        .value,
+
+                endereco:
+                    document
+                        .getElementById(
+                            "obra-endereco"
+                        )
+                        .value
+                        .trim(),
+
+                data_inicio:
+                    document
+                        .getElementById(
+                            "obra-data-inicio"
+                        )
+                        .value,
+
+                data_previsao_conclusao:
+                    previsao ||
+                    null,
+
+                orcamento_previsto:
+                    orcamento
+                        ? Number(
+                            orcamento
+                        )
+                        : null,
+
+                latitude:
+                    null,
+
+                longitude:
+                    null
+
+            };
+
+
+            console.log(
+                "Cadastrando obra:",
+                dados
+            );
+
+
+            try {
+
+                if (botao) {
+
+                    botao.disabled =
+                        true;
+
+
+                    botao.innerHTML = `
+                        <span class="material-symbols-outlined">
+                            progress_activity
+                        </span>
+
+                        Salvando...
+                    `;
+
+                }
+
+
+                /*
+                    shared/api.js decide automaticamente:
+
+                    Local:
+                    127.0.0.1:8000
+
+                    Netlify:
+                    API do Render
+                */
+
+                const novaObra =
+                    await apiPost(
+                        "/obras",
+                        dados
+                    );
+
+
+                console.log(
+                    "Obra cadastrada:",
+                    novaObra
+                );
+
+
+                fecharModalNovaObra();
+
+
+                /*
+                    Busca novamente a fonte
+                    oficial no banco.
+                */
+
+                await carregarObras();
+
+
+                /*
+                    Atualiza:
+                    - total
+                    - planejamento
+                    - andamento
+                    - concluídas
+                    - cards
+                */
+
+                renderizarPagina();
+
+
+            } catch (erroApi) {
+
+                console.error(
+                    "Erro ao cadastrar obra:",
+                    erroApi
+                );
+
+
+                if (erro) {
+
+                    erro.textContent =
+                        "Não foi possível cadastrar a obra. Verifique os dados e tente novamente.";
+
+                }
+
+
+            } finally {
+
+                if (botao) {
+
+                    botao.disabled =
+                        false;
+
+
+                    botao.innerHTML = `
+                        <span class="material-symbols-outlined">
+                            save
+                        </span>
+
+                        Cadastrar obra
+                    `;
+
+                }
+
+            }
+
+        }
+    );
+
+
+    // Clicar fora fecha o modal
+
+    modal.addEventListener(
+        "click",
+        evento => {
+
+            if (
+                evento.target === modal
+            ) {
+
+                fecharModalNovaObra();
+
+            }
+
+        }
+    );
+
+
+    // ESC fecha
+
+    document.addEventListener(
+        "keydown",
+        evento => {
+
+            if (
+                evento.key === "Escape" &&
+                modal.classList.contains(
+                    "open"
+                )
+            ) {
+
+                fecharModalNovaObra();
+
+            }
+
+        }
+    );
+
 }

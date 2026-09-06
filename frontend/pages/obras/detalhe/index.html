@@ -911,22 +911,37 @@
 
                         </div>
 
-                        <div class="modulo-vazio">
+                        <div class="modulo-toolbar">
 
                             <span class="material-symbols-outlined">
-                                history_edu
+                                filter_alt
                             </span>
 
-                            <strong>
-                                Nenhum registro salvo ainda
-                            </strong>
+                            <input
+                                id="diario-filtro-data"
+                                type="date"
+                                aria-label="Filtrar diario por data"
+                            >
 
-                            <p>
-                                Os registros aparecerão aqui em ordem
-                                cronológica quando criarmos o módulo no banco.
-                            </p>
+                            <button
+                                class="text-button"
+                                type="button"
+                                onclick="limparFiltroDiario()"
+                            >
+                                Limpar
+                            </button>
 
                         </div>
+
+                        <div
+                            class="diario-lista"
+                            id="lista-diarios"
+                        >
+                            <div class="empty-state">
+                                Carregando registros...
+                            </div>
+                        </div>
+
 
                     </section>
 
@@ -964,7 +979,7 @@
                             <button
                                 class="button button-primary"
                                 type="button"
-                                onclick="mostrarToast('Cadastro de equipe será ligado ao banco no próximo módulo.')"
+                                onclick="focarCampo('equipe-nome')"
                             >
                                 <span class="material-symbols-outlined">
                                     person_add
@@ -975,21 +990,76 @@
 
                         </div>
 
-                        <div class="modulo-vazio">
+                        <div class="modulo-layout">
 
-                            <span class="material-symbols-outlined">
-                                groups
-                            </span>
+                            <form
+                                class="modulo-form"
+                                id="form-equipe"
+                            >
+                                <div class="form-group">
+                                    <label for="equipe-nome">
+                                        Nome *
+                                    </label>
 
-                            <strong>
-                                Nenhuma pessoa vinculada
-                            </strong>
+                                    <input
+                                        id="equipe-nome"
+                                        type="text"
+                                        placeholder="Ex.: João Silva"
+                                        required
+                                    >
+                                </div>
 
-                            <p>
-                                O total de funcionários será calculado a
-                                partir das pessoas e presenças registradas,
-                                sem números duplicados.
-                            </p>
+                                <div class="form-group">
+                                    <label for="equipe-funcao">
+                                        Função
+                                    </label>
+
+                                    <input
+                                        id="equipe-funcao"
+                                        type="text"
+                                        placeholder="Ex.: Pedreiro"
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="equipe-contato">
+                                        Contato
+                                    </label>
+
+                                    <input
+                                        id="equipe-contato"
+                                        type="text"
+                                        placeholder="Telefone ou observação"
+                                    >
+                                </div>
+
+                                <div
+                                    class="form-error"
+                                    id="equipe-erro"
+                                ></div>
+
+                                <button
+                                    class="button button-primary"
+                                    id="btn-salvar-equipe"
+                                    type="submit"
+                                >
+                                    <span class="material-symbols-outlined">
+                                        save
+                                    </span>
+
+                                    Salvar pessoa
+                                </button>
+                            </form>
+
+                            <div
+                                class="modulo-lista equipe-lista"
+                                id="lista-equipe"
+                            >
+                                <div class="empty-state">
+                                    Carregando equipe...
+                                </div>
+                            </div>
+
 
                         </div>
 
@@ -1029,7 +1099,7 @@
                             <button
                                 class="button button-primary"
                                 type="button"
-                                onclick="mostrarToast('Cadastro de materiais será ligado ao banco no próximo módulo.')"
+                                onclick="focarCampo('material-nome')"
                             >
                                 <span class="material-symbols-outlined">
                                     add_box
@@ -1040,22 +1110,191 @@
 
                         </div>
 
-                        <div class="modulo-vazio">
+                        <div class="materiais-forms">
 
-                            <span class="material-symbols-outlined">
-                                inventory_2
-                            </span>
+                            <form
+                                class="modulo-form"
+                                id="form-material"
+                            >
+                                <div class="form-group">
+                                    <label for="material-nome">
+                                        Material *
+                                    </label>
 
-                            <strong>
-                                Nenhum material cadastrado
-                            </strong>
+                                    <input
+                                        id="material-nome"
+                                        type="text"
+                                        placeholder="Ex.: Cimento CP II"
+                                        required
+                                    >
+                                </div>
 
-                            <p>
-                                O saldo será calculado pelas entradas e
-                                consumos, sem armazenar um valor manual
-                                redundante.
-                            </p>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="material-unidade">
+                                            Unidade *
+                                        </label>
 
+                                        <input
+                                            id="material-unidade"
+                                            type="text"
+                                            value="un"
+                                            required
+                                        >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="material-minimo">
+                                            Estoque mínimo
+                                        </label>
+
+                                        <input
+                                            id="material-minimo"
+                                            type="number"
+                                            min="0"
+                                            step="0.01"
+                                            placeholder="0"
+                                        >
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="form-error"
+                                    id="material-erro"
+                                ></div>
+
+                                <button
+                                    class="button button-primary"
+                                    id="btn-salvar-material"
+                                    type="submit"
+                                >
+                                    <span class="material-symbols-outlined">
+                                        save
+                                    </span>
+
+                                    Salvar material
+                                </button>
+                            </form>
+
+                            <form
+                                class="modulo-form"
+                                id="form-movimento-material"
+                            >
+                                <div class="form-group">
+                                    <label for="movimento-material">
+                                        Material *
+                                    </label>
+
+                                    <select
+                                        id="movimento-material"
+                                        required
+                                    >
+                                        <option value="">
+                                            Selecione um material
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="movimento-tipo">
+                                            Tipo *
+                                        </label>
+
+                                        <select
+                                            id="movimento-tipo"
+                                            required
+                                        >
+                                            <option value="entrada">
+                                                Entrada
+                                            </option>
+
+                                            <option value="saida">
+                                                Saída / uso
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="movimento-quantidade">
+                                            Quantidade *
+                                        </label>
+
+                                        <input
+                                            id="movimento-quantidade"
+                                            type="number"
+                                            min="0.01"
+                                            step="0.01"
+                                            required
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="movimento-data">
+                                            Data *
+                                        </label>
+
+                                        <input
+                                            id="movimento-data"
+                                            type="date"
+                                            required
+                                        >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="movimento-etapa">
+                                            Etapa
+                                        </label>
+
+                                        <input
+                                            id="movimento-etapa"
+                                            type="text"
+                                            placeholder="Ex.: Fundação"
+                                        >
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="movimento-observacao">
+                                        Observação
+                                    </label>
+
+                                    <textarea
+                                        id="movimento-observacao"
+                                        rows="2"
+                                        placeholder="Fornecedor, destino ou detalhe do uso"
+                                    ></textarea>
+                                </div>
+
+                                <div
+                                    class="form-error"
+                                    id="movimento-erro"
+                                ></div>
+
+                                <button
+                                    class="button button-primary"
+                                    id="btn-salvar-movimento"
+                                    type="submit"
+                                >
+                                    <span class="material-symbols-outlined">
+                                        sync_alt
+                                    </span>
+
+                                    Registrar movimento
+                                </button>
+                            </form>
+
+                        </div>
+
+                        <div
+                            class="modulo-lista materiais-lista"
+                            id="lista-materiais"
+                        >
+                            <div class="empty-state">
+                                Carregando materiais...
+                            </div>
                         </div>
 
                     </section>
@@ -1212,6 +1451,29 @@
                 </div>
 
                 <div class="form-group form-full">
+                    <label for="registro-clima">
+                        Clima *
+                    </label>
+
+                    <select
+                        id="registro-clima"
+                        required
+                    >
+                        <option value="sol">
+                            Sol
+                        </option>
+
+                        <option value="nublado">
+                            Nublado
+                        </option>
+
+                        <option value="chuva">
+                            Chuva
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group form-full">
                     <label for="registro-servicos">
                         Serviços executados *
                     </label>
@@ -1250,17 +1512,10 @@
 
             </div>
 
-            <div class="registro-aviso">
-                <span class="material-symbols-outlined">
-                    database
-                </span>
-
-                <span>
-                    A interface já está pronta. A persistência deste
-                    registro será conectada quando criarmos o módulo
-                    de diário no backend.
-                </span>
-            </div>
+            <div
+                class="form-error"
+                id="registro-erro"
+            ></div>
 
             <div class="registro-footer">
 
@@ -1274,6 +1529,7 @@
 
                 <button
                     class="button button-primary"
+                    id="btn-salvar-registro"
                     type="submit"
                 >
                     <span class="material-symbols-outlined">

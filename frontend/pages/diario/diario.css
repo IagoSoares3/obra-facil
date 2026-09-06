@@ -1,0 +1,296 @@
+.diario-page .operacional-page-header {
+    padding: 18px 0 4px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+
+    align-items: end;
+
+    gap: 18px;
+}
+
+
+.diario-page .operacional-resumo-card {
+    border-radius: 8px;
+
+    border-left: 4px solid #2563eb;
+}
+
+
+.diario-page .operacional-resumo-card:nth-child(2) {
+    border-left-color: #f59e0b;
+}
+
+
+.diario-page .operacional-resumo-card:nth-child(3) {
+    border-left-color: #16a34a;
+}
+
+
+.diario-page .operacional-resumo-card:nth-child(4) {
+    border-left-color: #dc2626;
+}
+
+
+.diario-page .operacional-panel {
+    border-radius: 8px;
+}
+
+
+.diario-page .operacional-toolbar {
+    background:
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+
+.diario-workspace {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        310px;
+
+    align-items: start;
+
+    gap: 0;
+}
+
+
+.diario-timeline {
+    position: relative;
+
+    padding-left: 34px;
+
+    border-right: 1px solid #e2e8f0;
+}
+
+
+.diario-timeline::before {
+    content: "";
+
+    position: absolute;
+    top: 24px;
+    bottom: 24px;
+    left: 21px;
+
+    width: 2px;
+
+    background: #dbeafe;
+}
+
+
+.diario-page .operacional-card {
+    position: relative;
+
+    border-radius: 8px;
+
+    box-shadow: none;
+}
+
+
+.diario-page .operacional-card::before {
+    content: "";
+
+    position: absolute;
+    top: 24px;
+    left: -20px;
+
+    width: 12px;
+    height: 12px;
+
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    box-shadow: 0 0 0 2px #bfdbfe;
+}
+
+
+.diario-page .operacional-card:hover {
+    box-shadow:
+        0 10px 24px rgba(15, 23, 42, .06);
+}
+
+
+.diario-page .operacional-icon {
+    border-radius: 8px;
+
+    background: #0f172a;
+    color: #ffffff;
+}
+
+
+.diario-page .registro-bloco {
+    padding-bottom: 14px;
+}
+
+
+.diario-guia {
+    position: sticky;
+    top: 92px;
+
+    padding: 16px;
+
+    background: #ffffff;
+}
+
+
+.diario-guia-header {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 12px;
+}
+
+
+.diario-guia-header > .material-symbols-outlined {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 8px;
+
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+
+.diario-guia h3 {
+    margin: 3px 0 0;
+
+    color: #0f172a;
+
+    font-size: .86rem;
+}
+
+
+.diario-etapas-lista {
+    max-height: calc(100vh - 190px);
+
+    overflow-y: auto;
+
+    display: grid;
+
+    gap: 7px;
+}
+
+
+.diario-etapa-item {
+    width: 100%;
+
+    padding: 10px;
+
+    display: grid;
+
+    grid-template-columns:
+        34px minmax(0, 1fr);
+
+    align-items: center;
+
+    gap: 9px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #334155;
+
+    text-align: left;
+
+    cursor: pointer;
+}
+
+
+.diario-etapa-item:hover,
+.diario-etapa-item.active {
+    border-color: #bfdbfe;
+
+    background: #eff6ff;
+}
+
+
+.diario-etapa-item span {
+    color: #94a3b8;
+
+    font-size: .62rem;
+    font-weight: 800;
+}
+
+
+.diario-etapa-item strong {
+    overflow: hidden;
+
+    font-size: .68rem;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.diario-page .modal-operacional {
+    width: min(760px, 100%);
+
+    border-radius: 8px;
+}
+
+
+@media (max-width: 1100px) {
+
+    .diario-workspace {
+        grid-template-columns: 1fr;
+    }
+
+
+    .diario-timeline {
+        border-right: 0;
+    }
+
+
+    .diario-guia {
+        position: static;
+
+        border-top: 1px solid #e2e8f0;
+    }
+
+
+    .diario-etapas-lista {
+        max-height: none;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 640px) {
+
+    .diario-page .operacional-page-header {
+        display: block;
+    }
+
+
+    .diario-timeline {
+        padding-left: 18px;
+    }
+
+
+    .diario-timeline::before,
+    .diario-page .operacional-card::before {
+        display: none;
+    }
+
+
+    .diario-etapas-lista {
+        grid-template-columns: 1fr;
+    }
+
+}

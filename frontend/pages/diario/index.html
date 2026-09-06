@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+
+    <title>Diário | Obra Fácil</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    >
+
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../modulos.css">
+    <link rel="stylesheet" href="diario.css">
+</head>
+
+<body class="diario-page">
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand-row">
+                <a
+                    class="brand"
+                    href="../../index.html"
+                    aria-label="Obra Fácil"
+                >
+                    <img
+                        src="../../assets/logo_sem_fundo.png"
+                        alt="Obra Fácil"
+                        class="brand-logo"
+                    >
+
+                    <span class="brand-copy">
+                        <strong>Obra Fácil</strong>
+                        <small>Gestão de obras</small>
+                    </span>
+                </a>
+
+                <button
+                    class="icon-button sidebar-toggle"
+                    id="btn-toggle"
+                    type="button"
+                    aria-label="Recolher menu"
+                >
+                    <span class="material-symbols-outlined">
+                        left_panel_close
+                    </span>
+                </button>
+            </div>
+
+            <nav class="menu" aria-label="Menu principal">
+                <a href="../../index.html" class="menu-item">
+                    <span class="material-symbols-outlined">space_dashboard</span>
+                    <span class="menu-label">Visão geral</span>
+                </a>
+
+                <a href="../obras/index.html" class="menu-item">
+                    <span class="material-symbols-outlined">construction</span>
+                    <span class="menu-label">Obras</span>
+                </a>
+
+                <a href="index.html" class="menu-item active">
+                    <span class="material-symbols-outlined">edit_note</span>
+                    <span class="menu-label">Diário</span>
+                </a>
+
+                <a href="../materiais/index.html" class="menu-item">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <span class="menu-label">Materiais</span>
+                </a>
+
+                <a href="../equipe/index.html" class="menu-item">
+                    <span class="material-symbols-outlined">groups</span>
+                    <span class="menu-label">Equipe</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="menu-item menu-button" type="button">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="menu-label">Configurações</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-area">
+            <header class="topbar">
+                <div class="topbar-title">
+                    <span class="eyebrow">Histórico</span>
+                    <h1>Diário</h1>
+                </div>
+
+                <div class="topbar-actions">
+                    <button
+                        class="button button-primary"
+                        id="btn-novo-diario"
+                        type="button"
+                    >
+                        <span class="material-symbols-outlined">add_notes</span>
+                        <span class="btn-label">Novo registro</span>
+                    </button>
+                </div>
+            </header>
+
+            <section class="page-content">
+                <div class="operacional-page-header">
+                    <p class="welcome-kicker">Diário de obra</p>
+                    <h2>Registros diários</h2>
+                    <p class="page-subtitle">
+                        Acompanhe serviços executados, clima, mão de obra e ocorrências por obra.
+                    </p>
+                </div>
+
+                <div class="operacional-resumo-grid">
+                    <article class="operacional-resumo-card">
+                        <span>Total</span>
+                        <strong id="resumo-total">0</strong>
+                    </article>
+
+                    <article class="operacional-resumo-card">
+                        <span>Hoje</span>
+                        <strong id="resumo-hoje">0</strong>
+                    </article>
+
+                    <article class="operacional-resumo-card">
+                        <span>Pessoas hoje</span>
+                        <strong id="resumo-pessoas">0</strong>
+                    </article>
+
+                    <article class="operacional-resumo-card">
+                        <span>Ocorrências</span>
+                        <strong id="resumo-ocorrencias">0</strong>
+                    </article>
+                </div>
+
+                <section class="panel operacional-panel">
+                    <div class="operacional-toolbar">
+                        <div class="operacional-search">
+                            <span class="material-symbols-outlined">search</span>
+                            <input
+                                id="busca-diario"
+                                type="search"
+                                placeholder="Buscar por obra, serviço ou ocorrência..."
+                            >
+                        </div>
+
+                        <select id="filtro-obra">
+                            <option value="">Todas as obras</option>
+                        </select>
+
+                        <input
+                            id="filtro-data"
+                            type="date"
+                            aria-label="Filtrar por data"
+                        >
+
+                        <select id="filtro-etapa">
+                            <option value="">Todas as etapas</option>
+                        </select>
+
+                        <select id="filtro-clima">
+                            <option value="">Todos os climas</option>
+                            <option value="sol">Sol</option>
+                            <option value="nublado">Nublado</option>
+                            <option value="chuva">Chuva</option>
+                        </select>
+                    </div>
+
+                    <div class="diario-workspace">
+                        <div
+                            class="operacional-list diario-timeline"
+                            id="lista-diarios"
+                        >
+                            <div class="empty-state">
+                                Carregando registros...
+                            </div>
+                        </div>
+
+                        <aside class="diario-guia">
+                            <div class="diario-guia-header">
+                                <span class="material-symbols-outlined">
+                                    account_tree
+                                </span>
+
+                                <div>
+                                    <span class="section-kicker">
+                                        Guia da obra
+                                    </span>
+
+                                    <h3>
+                                        Etapas mais usadas
+                                    </h3>
+                                </div>
+                            </div>
+
+                            <div
+                                class="diario-etapas-lista"
+                                id="lista-etapas-guia"
+                            ></div>
+                        </aside>
+                    </div>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <div
+        class="modal-operacional-overlay"
+        id="modal-diario"
+        aria-hidden="true"
+    >
+        <div
+            class="modal-operacional"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-diario-titulo"
+        >
+            <div class="modal-operacional-header">
+                <div>
+                    <span class="section-kicker">Diário de obra</span>
+                    <h2 id="modal-diario-titulo">Novo registro</h2>
+                    <p>Registre o que aconteceu na obra em poucos campos.</p>
+                </div>
+
+                <button
+                    class="modal-close"
+                    type="button"
+                    onclick="fecharModalDiario()"
+                    aria-label="Fechar"
+                >
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <form id="form-diario">
+                <div class="modal-operacional-body">
+                    <div class="form-group form-full">
+                        <label for="diario-obra">Obra *</label>
+                        <select id="diario-obra" required></select>
+                    </div>
+
+                    <div class="form-group form-full">
+                        <label for="diario-etapa">Etapa / frente da obra</label>
+                        <select id="diario-etapa">
+                            <option value="">Selecione uma etapa</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="diario-data">Data *</label>
+                        <input id="diario-data" type="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="diario-clima">Clima *</label>
+                        <select id="diario-clima" required>
+                            <option value="sol">Sol</option>
+                            <option value="nublado">Nublado</option>
+                            <option value="chuva">Chuva</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group form-full">
+                        <label for="diario-pessoas">Pessoas na obra</label>
+                        <input
+                            id="diario-pessoas"
+                            type="number"
+                            min="0"
+                            step="1"
+                            placeholder="0"
+                        >
+                    </div>
+
+                    <div class="form-group form-full">
+                        <label for="diario-servicos">Serviços executados *</label>
+                        <textarea
+                            id="diario-servicos"
+                            rows="4"
+                            placeholder="Descreva os serviços executados..."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group form-full">
+                        <label for="diario-materiais">Materiais utilizados</label>
+                        <textarea
+                            id="diario-materiais"
+                            rows="3"
+                            placeholder="Ex.: 20 sacos de cimento, 2 m³ de areia..."
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group form-full">
+                        <label for="diario-ocorrencias">Ocorrências e observações</label>
+                        <textarea
+                            id="diario-ocorrencias"
+                            rows="3"
+                            placeholder="Atrasos, problemas, imprevistos ou decisões..."
+                        ></textarea>
+                    </div>
+
+                    <div
+                        class="form-error form-full"
+                        id="diario-erro"
+                    ></div>
+                </div>
+
+                <div class="modal-operacional-footer">
+                    <button
+                        class="button button-ghost"
+                        type="button"
+                        onclick="fecharModalDiario()"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        class="button button-primary"
+                        id="btn-salvar-diario"
+                        type="submit"
+                    >
+                        <span class="material-symbols-outlined">save</span>
+                        Salvar registro
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">
+        <span class="material-symbols-outlined">check_circle</span>
+        <span id="toast-text">Tudo certo.</span>
+    </div>
+
+    <script src="../../shared/api.js"></script>
+    <script src="../../shared/ui.js"></script>
+    <script src="diario.js"></script>
+</body>
+</html>

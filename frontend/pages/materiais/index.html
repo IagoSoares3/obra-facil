@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+
+    <title>Materiais | Obra Fácil</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    >
+
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../modulos.css">
+    <link rel="stylesheet" href="materiais.css">
+</head>
+
+<body class="materiais-page">
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand-row">
+                <a
+                    class="brand"
+                    href="../../index.html"
+                    aria-label="Obra Fácil"
+                >
+                    <img
+                        src="../../assets/logo_sem_fundo.png"
+                        alt="Obra Fácil"
+                        class="brand-logo"
+                    >
+
+                    <span class="brand-copy">
+                        <strong>Obra Fácil</strong>
+                        <small>Gestão de obras</small>
+                    </span>
+                </a>
+
+                <button
+                    class="icon-button sidebar-toggle"
+                    id="btn-toggle"
+                    type="button"
+                    aria-label="Recolher menu"
+                >
+                    <span class="material-symbols-outlined">
+                        left_panel_close
+                    </span>
+                </button>
+            </div>
+
+            <nav class="menu" aria-label="Menu principal">
+                <a href="../../index.html" class="menu-item">
+                    <span class="material-symbols-outlined">space_dashboard</span>
+                    <span class="menu-label">Visão geral</span>
+                </a>
+
+                <a href="../obras/index.html" class="menu-item">
+                    <span class="material-symbols-outlined">construction</span>
+                    <span class="menu-label">Obras</span>
+                </a>
+
+                <a href="../diario/index.html" class="menu-item">
+                    <span class="material-symbols-outlined">edit_note</span>
+                    <span class="menu-label">Diário</span>
+                </a>
+
+                <a href="index.html" class="menu-item active">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <span class="menu-label">Materiais</span>
+                </a>
+
+                <a href="../equipe/index.html" class="menu-item">
+                    <span class="material-symbols-outlined">groups</span>
+                    <span class="menu-label">Equipe</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="menu-item menu-button" type="button">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="menu-label">Configurações</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-area">
+            <header class="topbar">
+                <div class="topbar-title">
+                    <span class="eyebrow">Estoque</span>
+                    <h1>Materiais</h1>
+                </div>
+
+                <div class="topbar-actions">
+                    <button
+                        class="button button-ghost hide-mobile"
+                        id="btn-novo-movimento"
+                        type="button"
+                    >
+                        <span class="material-symbols-outlined">sync_alt</span>
+                        <span class="btn-label">Movimento</span>
+                    </button>
+
+                    <button
+                        class="button button-primary"
+                        id="btn-novo-material"
+                        type="button"
+                    >
+                        <span class="material-symbols-outlined">add_box</span>
+                        <span class="btn-label">Novo material</span>
+                    </button>
+                </div>
+            </header>
+
+            <section class="page-content">
+                <div class="operacional-page-header">
+                    <p class="welcome-kicker">Controle de materiais</p>
+                    <h2>Estoque das obras</h2>
+                    <p class="page-subtitle">
+                        Cadastre materiais, registre entradas e saídas e acompanhe o saldo por obra.
+                    </p>
+                </div>
+
+                <div class="operacional-resumo-grid">
+                    <article class="operacional-resumo-card">
+                        <span>Materiais</span>
+                        <strong id="resumo-total">0</strong>
+                    </article>
+
+                    <article class="operacional-resumo-card">
+                        <span>Em alerta</span>
+                        <strong id="resumo-alertas">0</strong>
+                    </article>
+
+                    <article class="operacional-resumo-card">
+                        <span>Obras com estoque</span>
+                        <strong id="resumo-obras">0</strong>
+                    </article>
+
+                    <article class="operacional-resumo-card">
+                        <span>Movimentos</span>
+                        <strong id="resumo-movimentos">0</strong>
+                    </article>
+                </div>
+
+                <section class="panel operacional-panel">
+                    <div class="operacional-toolbar">
+                        <div class="operacional-search">
+                            <span class="material-symbols-outlined">search</span>
+                            <input
+                                id="busca-materiais"
+                                type="search"
+                                placeholder="Buscar por material, obra ou etapa..."
+                            >
+                        </div>
+
+                        <select id="filtro-obra">
+                            <option value="">Todas as obras</option>
+                        </select>
+
+                        <select id="filtro-status">
+                            <option value="">Todos os status</option>
+                            <option value="alerta">Em alerta</option>
+                            <option value="ok">Saldo ok</option>
+                        </select>
+                    </div>
+
+                    <div
+                        class="operacional-list material-card-grid"
+                        id="lista-materiais"
+                    >
+                        <div class="empty-state">
+                            Carregando materiais...
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <div
+        class="modal-operacional-overlay"
+        id="modal-material"
+        aria-hidden="true"
+    >
+        <div
+            class="modal-operacional"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-material-titulo"
+        >
+            <div class="modal-operacional-header">
+                <div>
+                    <span class="section-kicker">Material</span>
+                    <h2 id="modal-material-titulo">Novo material</h2>
+                    <p>Cadastre um item para controlar entradas, saídas e saldo.</p>
+                </div>
+
+                <button
+                    class="modal-close"
+                    type="button"
+                    onclick="fecharModalMaterial()"
+                    aria-label="Fechar"
+                >
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <form id="form-material">
+                <div class="modal-operacional-body">
+                    <div class="form-group form-full">
+                        <label for="material-obra">Obra *</label>
+                        <select id="material-obra" required></select>
+                    </div>
+
+                    <div class="form-group form-full">
+                        <label for="material-nome">Material *</label>
+                        <input
+                            id="material-nome"
+                            type="text"
+                            placeholder="Ex.: Cimento CP II"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="material-unidade">Unidade *</label>
+                        <input
+                            id="material-unidade"
+                            type="text"
+                            value="un"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="material-minimo">Estoque mínimo</label>
+                        <input
+                            id="material-minimo"
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            placeholder="0"
+                        >
+                    </div>
+
+                    <div
+                        class="form-error form-full"
+                        id="material-erro"
+                    ></div>
+                </div>
+
+                <div class="modal-operacional-footer">
+                    <button
+                        class="button button-ghost"
+                        type="button"
+                        onclick="fecharModalMaterial()"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        class="button button-primary"
+                        id="btn-salvar-material"
+                        type="submit"
+                    >
+                        <span class="material-symbols-outlined">save</span>
+                        Salvar material
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div
+        class="modal-operacional-overlay"
+        id="modal-movimento"
+        aria-hidden="true"
+    >
+        <div
+            class="modal-operacional"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-movimento-titulo"
+        >
+            <div class="modal-operacional-header">
+                <div>
+                    <span class="section-kicker">Movimento</span>
+                    <h2 id="modal-movimento-titulo">Entrada ou saída</h2>
+                    <p>Registre compra, recebimento ou uso de material na obra.</p>
+                </div>
+
+                <button
+                    class="modal-close"
+                    type="button"
+                    onclick="fecharModalMovimento()"
+                    aria-label="Fechar"
+                >
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+
+            <form id="form-movimento">
+                <div class="modal-operacional-body">
+                    <div class="form-group">
+                        <label for="movimento-obra">Obra *</label>
+                        <select id="movimento-obra" required></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="movimento-material">Material *</label>
+                        <select id="movimento-material" required></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="movimento-tipo">Tipo *</label>
+                        <select id="movimento-tipo" required>
+                            <option value="entrada">Entrada</option>
+                            <option value="saida">Saída / uso</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="movimento-quantidade">Quantidade *</label>
+                        <input
+                            id="movimento-quantidade"
+                            type="number"
+                            min="0.01"
+                            step="0.01"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="movimento-data">Data *</label>
+                        <input id="movimento-data" type="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="movimento-etapa">Etapa</label>
+                        <input
+                            id="movimento-etapa"
+                            type="text"
+                            placeholder="Ex.: Fundação"
+                        >
+                    </div>
+
+                    <div class="form-group form-full">
+                        <label for="movimento-observacao">Observação</label>
+                        <textarea
+                            id="movimento-observacao"
+                            rows="3"
+                            placeholder="Fornecedor, destino ou detalhe do uso"
+                        ></textarea>
+                    </div>
+
+                    <div
+                        class="form-error form-full"
+                        id="movimento-erro"
+                    ></div>
+                </div>
+
+                <div class="modal-operacional-footer">
+                    <button
+                        class="button button-ghost"
+                        type="button"
+                        onclick="fecharModalMovimento()"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        class="button button-primary"
+                        id="btn-salvar-movimento"
+                        type="submit"
+                    >
+                        <span class="material-symbols-outlined">sync_alt</span>
+                        Registrar movimento
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">
+        <span class="material-symbols-outlined">check_circle</span>
+        <span id="toast-text">Tudo certo.</span>
+    </div>
+
+    <script src="../../shared/api.js"></script>
+    <script src="../../shared/ui.js"></script>
+    <script src="materiais.js"></script>
+</body>
+</html>

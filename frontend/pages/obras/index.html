@@ -139,7 +139,7 @@
 
 
                 <a
-                    href="#"
+                    href="../diario/index.html"
                     class="menu-item"
                 >
                     <span class="material-symbols-outlined">
@@ -153,7 +153,7 @@
 
 
                 <a
-                    href="#"
+                    href="../materiais/index.html"
                     class="menu-item"
                 >
                     <span class="material-symbols-outlined">
@@ -167,7 +167,7 @@
 
 
                 <a
-                    href="#"
+                    href="../equipe/index.html"
                     class="menu-item"
                 >
                     <span class="material-symbols-outlined">
@@ -563,6 +563,174 @@
                 </button>
 
             </div>
+
+        </div>
+    </div>
+
+
+    <!-- =====================================================
+         MODAL - NOVA OBRA
+    ====================================================== -->
+
+    <div
+        class="modal-overlay"
+        id="modal-nova-obra"
+        aria-hidden="true"
+    >
+        <div
+            class="modal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="titulo-modal-nova-obra"
+        >
+
+            <div class="modal-header">
+
+                <div>
+                    <span class="section-kicker">
+                        Cadastro
+                    </span>
+
+                    <h2 id="titulo-modal-nova-obra">
+                        Nova obra
+                    </h2>
+
+                    <p>
+                        Cadastre as informações iniciais da obra.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="modal-close"
+                    onclick="fecharModalNovaObra()"
+                    aria-label="Fechar"
+                >
+                    <span class="material-symbols-outlined">
+                        close
+                    </span>
+                </button>
+
+            </div>
+
+            <form id="form-nova-obra">
+
+                <div class="modal-body">
+
+                    <div class="form-group form-full">
+                        <label for="obra-nome">
+                            Nome da obra *
+                        </label>
+
+                        <input
+                            id="obra-nome"
+                            type="text"
+                            placeholder="Ex.: Residencial Silva"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="obra-tipo">
+                            Tipo da obra *
+                        </label>
+
+                        <select
+                            id="obra-tipo"
+                            required
+                        >
+                            <option value="construcao">
+                                Construção
+                            </option>
+
+                            <option value="reforma">
+                                Reforma
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="obra-orcamento">
+                            Orçamento previsto
+                        </label>
+
+                        <input
+                            id="obra-orcamento"
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            placeholder="Ex.: 150000"
+                        >
+                    </div>
+
+                    <div class="form-group form-full">
+                        <label for="obra-endereco">
+                            Endereço *
+                        </label>
+
+                        <input
+                            id="obra-endereco"
+                            type="text"
+                            placeholder="Rua, número, cidade..."
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="obra-data-inicio">
+                            Data de início *
+                        </label>
+
+                        <input
+                            id="obra-data-inicio"
+                            type="date"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="obra-data-previsao">
+                            Previsão de conclusão
+                        </label>
+
+                        <input
+                            id="obra-data-previsao"
+                            type="date"
+                        >
+                    </div>
+
+                    <div
+                        class="form-error form-full"
+                        id="nova-obra-erro"
+                    ></div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="button button-ghost"
+                        onclick="fecharModalNovaObra()"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="button button-primary"
+                        id="btn-salvar-obra"
+                    >
+                        <span class="material-symbols-outlined">
+                            save
+                        </span>
+
+                        Cadastrar obra
+                    </button>
+
+                </div>
+
+            </form>
 
         </div>
     </div>

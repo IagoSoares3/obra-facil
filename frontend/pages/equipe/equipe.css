@@ -1,0 +1,233 @@
+.equipe-page .operacional-page-header {
+    padding: 18px 0 4px;
+}
+
+
+.equipe-page .operacional-resumo-card {
+    border-radius: 8px;
+
+    background:
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+
+.equipe-workspace {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        300px;
+
+    gap: 18px;
+
+    align-items: start;
+}
+
+
+.equipe-page .operacional-panel,
+.equipe-page .hierarquia-panel {
+    border-radius: 8px;
+}
+
+
+.equipe-page .operacional-toolbar {
+    background: #ffffff;
+}
+
+
+.equipe-page .operacional-card {
+    border-radius: 8px;
+
+    box-shadow: none;
+}
+
+
+.equipe-page .operacional-card:hover {
+    border-color: #bfdbfe;
+
+    box-shadow:
+        0 10px 24px rgba(15, 23, 42, .06);
+}
+
+
+.equipe-page .operacional-card-header {
+    min-height: 96px;
+
+    background:
+        linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+}
+
+
+.equipe-page .avatar-iniciais {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 8px;
+
+    background: #0f172a;
+    color: #ffffff;
+}
+
+
+.equipe-page .operacional-info-grid {
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+}
+
+
+.hierarquia-panel {
+    position: sticky;
+    top: 92px;
+
+    overflow: hidden;
+}
+
+
+.hierarquia-header {
+    padding: 16px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+
+.hierarquia-header > .material-symbols-outlined {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 8px;
+
+    background: #fffbeb;
+    color: #b45309;
+}
+
+
+.hierarquia-header h3 {
+    margin: 3px 0 0;
+
+    color: #0f172a;
+
+    font-size: .88rem;
+}
+
+
+.hierarquia-lista {
+    padding: 14px;
+}
+
+
+.hierarquia-item {
+    position: relative;
+
+    min-height: 44px;
+
+    display: grid;
+
+    grid-template-columns:
+        32px minmax(0, 1fr);
+
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+.hierarquia-item::after {
+    content: "";
+
+    position: absolute;
+    left: 15px;
+    top: 34px;
+    bottom: -10px;
+
+    width: 2px;
+
+    background: #e2e8f0;
+}
+
+
+.hierarquia-item:last-child::after {
+    display: none;
+}
+
+
+.hierarquia-item span {
+    position: relative;
+    z-index: 1;
+
+    width: 32px;
+    height: 32px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: #eff6ff;
+    color: #1d4ed8;
+
+    font-size: .68rem;
+    font-weight: 800;
+}
+
+
+.hierarquia-item strong {
+    overflow: hidden;
+
+    color: #334155;
+
+    font-size: .7rem;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.equipe-page .modal-operacional {
+    border-radius: 8px;
+}
+
+
+@media (max-width: 1080px) {
+
+    .equipe-workspace {
+        grid-template-columns: 1fr;
+    }
+
+
+    .hierarquia-panel {
+        position: static;
+    }
+
+
+    .hierarquia-lista {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 8px;
+    }
+
+
+    .hierarquia-item::after {
+        display: none;
+    }
+
+}
+
+
+@media (max-width: 560px) {
+
+    .hierarquia-lista {
+        grid-template-columns: 1fr;
+    }
+
+}

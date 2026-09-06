@@ -1,4 +1,7 @@
 let obraAtual = null;
+let diarios = [];
+let materiais = [];
+let equipe = [];
 let toastTimer = null;
 
 
@@ -9,6 +12,11 @@ document.addEventListener(
         configurarSidebar();
         configurarTabs();
         configurarRegistroObra();
+        configurarFormularioEquipe();
+        configurarFormularioMaterial();
+        configurarFormularioMovimento();
+        configurarFiltroDiario();
+        preencherDatasPadrao();
 
         await carregarObra();
 
@@ -39,6 +47,7 @@ async function carregarObra() {
         );
 
         return;
+
     }
 
 
@@ -55,6 +64,24 @@ async function carregarObra() {
         );
 
 
+        await carregarDadosOperacionais();
+
+
+        const tabInicial =
+            parametros.get(
+                "tab"
+            );
+
+
+        if (tabInicial) {
+
+            abrirTab(
+                tabInicial
+            );
+
+        }
+
+
     } catch (erro) {
 
         console.error(
@@ -65,6 +92,111 @@ async function carregarObra() {
 
         mostrarErro(
             "A obra solicitada não foi encontrada ou o servidor está indisponível."
+        );
+
+    }
+}
+
+
+async function carregarDadosOperacionais() {
+
+    if (!obraAtual) {
+        return;
+    }
+
+
+    await Promise.all(
+        [
+            carregarDiarios(),
+            carregarMateriais(),
+            carregarEquipe()
+        ]
+    );
+
+
+    renderizarDadosOperacionais();
+
+}
+
+
+async function carregarDiarios() {
+
+    try {
+
+        diarios =
+            await apiGet(
+                `/obras/${obraAtual.id}/diarios`
+            );
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar diários:",
+            erro
+        );
+
+
+        diarios = [];
+
+        mostrarToast(
+            "Não foi possível carregar o diário desta obra."
+        );
+
+    }
+}
+
+
+async function carregarMateriais() {
+
+    try {
+
+        materiais =
+            await apiGet(
+                `/obras/${obraAtual.id}/materiais`
+            );
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar materiais:",
+            erro
+        );
+
+
+        materiais = [];
+
+        mostrarToast(
+            "Não foi possível carregar os materiais desta obra."
+        );
+
+    }
+}
+
+
+async function carregarEquipe() {
+
+    try {
+
+        equipe =
+            await apiGet(
+                `/obras/${obraAtual.id}/equipe`
+            );
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar equipe:",
+            erro
+        );
+
+
+        equipe = [];
+
+        mostrarToast(
+            "Não foi possível carregar a equipe desta obra."
         );
 
     }
@@ -92,13 +224,9 @@ function preencherObra(obra) {
     ).hidden = false;
 
 
-    // Título da aba
-
     document.title =
         `${obra.nome} | Obra Fácil`;
 
-
-    // Nome
 
     setTexto(
         "topbar-obra-nome",
@@ -112,23 +240,17 @@ function preencherObra(obra) {
     );
 
 
-    // Endereço
-
     setTexto(
         "obra-endereco",
         obra.endereco
     );
 
 
-    // Manuca
-
     setTexto(
         "manuca-obra-nome",
         obra.nome
     );
 
-
-    // Tipo
 
     const tipo =
         formatarTipo(
@@ -148,8 +270,6 @@ function preencherObra(obra) {
     );
 
 
-    // Status
-
     const statusTexto =
         formatarStatus(
             obra.status
@@ -162,12 +282,16 @@ function preencherObra(obra) {
         );
 
 
-    badge.textContent =
-        statusTexto;
+    if (badge) {
+
+        badge.textContent =
+            statusTexto;
 
 
-    badge.className =
-        `status-badge ${obra.status}`;
+        badge.className =
+            `status-badge ${obra.status}`;
+
+    }
 
 
     setTexto(
@@ -175,8 +299,6 @@ function preencherObra(obra) {
         statusTexto
     );
 
-
-    // Datas
 
     setTexto(
         "obra-inicio",
@@ -202,8 +324,6 @@ function preencherObra(obra) {
     );
 
 
-    // Orçamento
-
     setTexto(
         "obra-orcamento",
         formatarMoeda(
@@ -212,15 +332,11 @@ function preencherObra(obra) {
     );
 
 
-    // ID
-
     setTexto(
         "obra-id",
         `#${obra.id}`
     );
 
-
-    // Prazo
 
     setTexto(
         "obra-prazo",
@@ -231,22 +347,17 @@ function preencherObra(obra) {
     );
 
 
-    /*
-        Esses indicadores ficam zerados por enquanto.
+    atualizarIndicadoresOperacionais();
 
-        Depois eles virão dos módulos reais:
-        - Equipe
-        - Materiais
-        - Diário
-        - Etapas
-    */
+}
 
-    atualizarIndicadoresOperacionais({
-        equipe: 0,
-        materiais: 0,
-        registros: 0,
-        progresso: 0
-    });
+
+function renderizarDadosOperacionais() {
+
+    renderizarDiarios();
+    renderizarEquipe();
+    renderizarMateriais();
+    atualizarIndicadoresOperacionais();
 
 }
 
@@ -255,50 +366,53 @@ function preencherObra(obra) {
 // INDICADORES OPERACIONAIS
 // ======================================================
 
-function atualizarIndicadoresOperacionais({
-    equipe = 0,
-    materiais = 0,
-    registros = 0,
-    progresso = 0
-}) {
+function atualizarIndicadoresOperacionais() {
 
-    const percentual =
-        Math.max(
-            0,
-            Math.min(
-                100,
-                Number(progresso) || 0
-            )
+    const diarioHoje =
+        diarios.find(
+            diario =>
+                diario.data ===
+                formatarDataInputHoje()
         );
+
+
+    const equipeHoje =
+        diarioHoje
+            ? diarioHoje.quantidade_pessoas
+            : 0;
 
 
     setTexto(
         "operacao-equipe",
-        equipe
+        equipeHoje
     );
 
 
     setTexto(
         "operacao-materiais",
-        materiais
+        materiais.length
     );
 
 
     setTexto(
         "operacao-registros",
-        registros
+        diarios.length
     );
+
+
+    const progresso =
+        0;
 
 
     setTexto(
         "operacao-progresso",
-        `${percentual}%`
+        `${progresso}%`
     );
 
 
     setTexto(
         "progresso-percentual",
-        `${percentual}%`
+        `${progresso}%`
     );
 
 
@@ -311,7 +425,7 @@ function atualizarIndicadoresOperacionais({
     if (barra) {
 
         barra.style.width =
-            `${percentual}%`;
+            `${progresso}%`;
 
     }
 
@@ -319,112 +433,145 @@ function atualizarIndicadoresOperacionais({
 
 
 // ======================================================
-// TABS
+// DIARIO
 // ======================================================
 
-function configurarTabs() {
+function configurarFiltroDiario() {
 
     document
-        .querySelectorAll(
-            ".obra-tab"
+        .getElementById(
+            "diario-filtro-data"
         )
-        .forEach(
-            tab => {
-
-                tab.addEventListener(
-                    "click",
-                    () => {
-
-                        abrirTab(
-                            tab.dataset.tab
-                        );
-
-                    }
-                );
-
-            }
+        ?.addEventListener(
+            "change",
+            renderizarDiarios
         );
 
-
-    document
-        .querySelectorAll(
-            "[data-abrir-tab]"
-        )
-        .forEach(
-            botao => {
-
-                botao.addEventListener(
-                    "click",
-                    () => {
-
-                        abrirTab(
-                            botao.dataset.abrirTab
-                        );
-
-                    }
-                );
-
-            }
-        );
 }
 
 
-function abrirTab(nome) {
+function limparFiltroDiario() {
 
-    document
-        .querySelectorAll(
-            ".obra-tab"
-        )
-        .forEach(
-            tab => {
-
-                tab.classList.toggle(
-                    "active",
-                    tab.dataset.tab === nome
-                );
-
-            }
+    const campo =
+        document.getElementById(
+            "diario-filtro-data"
         );
 
 
-    document
-        .querySelectorAll(
-            ".obra-tab-content"
-        )
-        .forEach(
-            conteudo => {
+    if (campo) {
 
-                conteudo.classList.toggle(
-                    "active",
-                    conteudo.dataset.tabContent === nome
-                );
-
-            }
-        );
-
-
-    const alvo =
-        document.querySelector(
-            `.obra-tab[data-tab="${nome}"]`
-        );
-
-
-    if (alvo) {
-
-        alvo.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-            inline: "nearest"
-        });
+        campo.value =
+            "";
 
     }
 
+
+    renderizarDiarios();
+
 }
 
 
-// ======================================================
-// REGISTRO DA OBRA
-// ======================================================
+function renderizarDiarios() {
+
+    const lista =
+        document.getElementById(
+            "lista-diarios"
+        );
+
+
+    if (!lista) {
+        return;
+    }
+
+
+    const filtroData =
+        document.getElementById(
+            "diario-filtro-data"
+        )?.value;
+
+
+    const diariosFiltrados =
+        filtroData
+            ? diarios.filter(
+                diario =>
+                    diario.data === filtroData
+            )
+            : diarios;
+
+
+    if (diariosFiltrados.length === 0) {
+
+        lista.innerHTML = `
+            <div class="empty-state">
+                Nenhum registro encontrado.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    lista.innerHTML =
+        diariosFiltrados
+            .map(
+                diario => `
+                    <article class="diario-card">
+                        <header class="diario-card-header">
+                            <div>
+                                <span class="section-kicker">
+                                    ${formatarData(diario.data)}
+                                </span>
+
+                                <h4>
+                                    Registro do dia
+                                </h4>
+                            </div>
+
+                            <div class="diario-tags">
+                                <span class="clima-badge ${diario.clima}">
+                                    <span class="material-symbols-outlined">
+                                        ${iconeClima(diario.clima)}
+                                    </span>
+
+                                    ${formatarClima(diario.clima)}
+                                </span>
+
+                                <span class="pessoas-badge">
+                                    <span class="material-symbols-outlined">
+                                        groups
+                                    </span>
+
+                                    ${diario.quantidade_pessoas}
+                                </span>
+                            </div>
+                        </header>
+
+                        <div class="diario-bloco">
+                            <span>Serviços executados</span>
+                            <p>${escaparHtml(diario.servicos_executados)}</p>
+                        </div>
+
+                        ${diario.materiais_utilizados ? `
+                            <div class="diario-bloco">
+                                <span>Materiais utilizados</span>
+                                <p>${escaparHtml(diario.materiais_utilizados)}</p>
+                            </div>
+                        ` : ""}
+
+                        ${diario.ocorrencias ? `
+                            <div class="diario-bloco ocorrencia">
+                                <span>Ocorrências e observações</span>
+                                <p>${escaparHtml(diario.ocorrencias)}</p>
+                            </div>
+                        ` : ""}
+                    </article>
+                `
+            )
+            .join("");
+
+}
+
 
 function configurarRegistroObra() {
 
@@ -447,36 +594,143 @@ function configurarRegistroObra() {
 
     form.addEventListener(
         "submit",
-        (evento) => {
+        async (evento) => {
 
             evento.preventDefault();
 
 
-            /*
-                Ainda não temos endpoint para diário.
+            if (!obraAtual) {
 
-                Então não vamos salvar fake/localmente.
-                Quando criarmos o backend, esse submit
-                chamará a API.
-            */
+                mostrarToast(
+                    "Carregue uma obra antes de salvar o diário."
+                );
 
-            mostrarToast(
-                "Interface pronta. Agora precisamos criar o endpoint de registros no backend para salvar no banco."
-            );
+                return;
+
+            }
+
+
+            const erro =
+                document.getElementById(
+                    "registro-erro"
+                );
+
+
+            const botao =
+                document.getElementById(
+                    "btn-salvar-registro"
+                );
+
+
+            if (erro) {
+
+                erro.textContent =
+                    "";
+
+            }
+
+
+            const quantidadePessoas =
+                Number(
+                    document.getElementById(
+                        "registro-equipe"
+                    ).value
+                ) || 0;
+
+
+            const dados = {
+
+                data:
+                    document.getElementById(
+                        "registro-data"
+                    ).value,
+
+                clima:
+                    document.getElementById(
+                        "registro-clima"
+                    ).value,
+
+                quantidade_pessoas:
+                    quantidadePessoas,
+
+                servicos_executados:
+                    lerTexto(
+                        "registro-servicos"
+                    ),
+
+                materiais_utilizados:
+                    lerTextoOuNulo(
+                        "registro-materiais"
+                    ),
+
+                ocorrencias:
+                    lerTextoOuNulo(
+                        "registro-ocorrencias"
+                    )
+
+            };
+
+
+            try {
+
+                alternarBotaoSalvando(
+                    botao,
+                    "Salvando..."
+                );
+
+
+                const diario =
+                    await apiPost(
+                        `/obras/${obraAtual.id}/diarios`,
+                        dados
+                    );
+
+
+                fecharRegistroObra();
+
+                await carregarDiarios();
+
+                renderizarDiarios();
+                atualizarIndicadoresOperacionais();
+
+                mostrarToast(
+                    `Registro de ${formatarData(diario.data)} salvo.`
+                );
+
+
+            } catch (erroApi) {
+
+                console.error(
+                    "Erro ao salvar diário:",
+                    erroApi
+                );
+
+
+                if (erro) {
+
+                    erro.textContent =
+                        "Não foi possível salvar o registro. Verifique os dados e tente novamente.";
+
+                }
+
+
+            } finally {
+
+                restaurarBotao(
+                    botao
+                );
+
+            }
 
         }
     );
 
 
-    // Clicar fora fecha
-
     modal.addEventListener(
         "click",
         (evento) => {
 
-            if (
-                evento.target === modal
-            ) {
+            if (evento.target === modal) {
 
                 fecharRegistroObra();
 
@@ -486,15 +740,11 @@ function configurarRegistroObra() {
     );
 
 
-    // ESC fecha modal/painel
-
     document.addEventListener(
         "keydown",
         (evento) => {
 
-            if (
-                evento.key !== "Escape"
-            ) {
+            if (evento.key !== "Escape") {
                 return;
             }
 
@@ -554,18 +804,22 @@ function abrirRegistroObra() {
     form.reset();
 
 
-    const campoData =
-        document.getElementById(
-            "registro-data"
-        );
+    setValor(
+        "registro-data",
+        formatarDataInputHoje()
+    );
 
 
-    if (campoData) {
+    setValor(
+        "registro-clima",
+        "sol"
+    );
 
-        campoData.value =
-            formatarDataInputHoje();
 
-    }
+    setTexto(
+        "registro-erro",
+        ""
+    );
 
 
     modal.classList.add(
@@ -618,8 +872,761 @@ function fecharRegistroObra() {
 
 
 // ======================================================
+// EQUIPE
+// ======================================================
+
+function configurarFormularioEquipe() {
+
+    const form =
+        document.getElementById(
+            "form-equipe"
+        );
+
+
+    if (!form) {
+        return;
+    }
+
+
+    form.addEventListener(
+        "submit",
+        async (evento) => {
+
+            evento.preventDefault();
+
+
+            if (!obraAtual) {
+                return;
+            }
+
+
+            const erro =
+                document.getElementById(
+                    "equipe-erro"
+                );
+
+
+            const botao =
+                document.getElementById(
+                    "btn-salvar-equipe"
+                );
+
+
+            if (erro) {
+
+                erro.textContent =
+                    "";
+
+            }
+
+
+            const dados = {
+
+                nome:
+                    lerTexto(
+                        "equipe-nome"
+                    ),
+
+                funcao:
+                    lerTextoOuNulo(
+                        "equipe-funcao"
+                    ),
+
+                contato:
+                    lerTextoOuNulo(
+                        "equipe-contato"
+                    ),
+
+                ativo:
+                    true
+
+            };
+
+
+            try {
+
+                alternarBotaoSalvando(
+                    botao,
+                    "Salvando..."
+                );
+
+
+                await apiPost(
+                    `/obras/${obraAtual.id}/equipe`,
+                    dados
+                );
+
+
+                form.reset();
+
+                await carregarEquipe();
+
+                renderizarEquipe();
+
+                mostrarToast(
+                    "Pessoa adicionada à equipe."
+                );
+
+
+            } catch (erroApi) {
+
+                console.error(
+                    "Erro ao salvar pessoa:",
+                    erroApi
+                );
+
+
+                if (erro) {
+
+                    erro.textContent =
+                        "Não foi possível salvar a pessoa da equipe.";
+
+                }
+
+
+            } finally {
+
+                restaurarBotao(
+                    botao
+                );
+
+            }
+
+        }
+    );
+}
+
+
+function renderizarEquipe() {
+
+    const lista =
+        document.getElementById(
+            "lista-equipe"
+        );
+
+
+    if (!lista) {
+        return;
+    }
+
+
+    if (equipe.length === 0) {
+
+        lista.innerHTML = `
+            <div class="empty-state">
+                Nenhuma pessoa vinculada.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    lista.innerHTML =
+        equipe
+            .map(
+                pessoa => `
+                    <article class="equipe-item">
+                        <span class="equipe-avatar">
+                            ${obterIniciais(pessoa.nome)}
+                        </span>
+
+                        <div class="equipe-copy">
+                            <strong>${escaparHtml(pessoa.nome)}</strong>
+                            <span>${escaparHtml(pessoa.funcao || "Função não informada")}</span>
+                        </div>
+
+                        <span class="equipe-contato">
+                            ${escaparHtml(pessoa.contato || "Sem contato")}
+                        </span>
+                    </article>
+                `
+            )
+            .join("");
+
+}
+
+
+// ======================================================
+// MATERIAIS
+// ======================================================
+
+function configurarFormularioMaterial() {
+
+    const form =
+        document.getElementById(
+            "form-material"
+        );
+
+
+    if (!form) {
+        return;
+    }
+
+
+    form.addEventListener(
+        "submit",
+        async (evento) => {
+
+            evento.preventDefault();
+
+
+            if (!obraAtual) {
+                return;
+            }
+
+
+            const erro =
+                document.getElementById(
+                    "material-erro"
+                );
+
+
+            const botao =
+                document.getElementById(
+                    "btn-salvar-material"
+                );
+
+
+            if (erro) {
+
+                erro.textContent =
+                    "";
+
+            }
+
+
+            const estoqueMinimo =
+                Number(
+                    document.getElementById(
+                        "material-minimo"
+                    ).value
+                ) || 0;
+
+
+            const dados = {
+
+                nome:
+                    lerTexto(
+                        "material-nome"
+                    ),
+
+                unidade:
+                    lerTexto(
+                        "material-unidade"
+                    ),
+
+                estoque_minimo:
+                    estoqueMinimo
+
+            };
+
+
+            try {
+
+                alternarBotaoSalvando(
+                    botao,
+                    "Salvando..."
+                );
+
+
+                const material =
+                    await apiPost(
+                        `/obras/${obraAtual.id}/materiais`,
+                        dados
+                    );
+
+
+                form.reset();
+
+                setValor(
+                    "material-unidade",
+                    "un"
+                );
+
+                await carregarMateriais();
+
+                renderizarMateriais(
+                    material.id
+                );
+
+                atualizarIndicadoresOperacionais();
+
+                mostrarToast(
+                    "Material cadastrado."
+                );
+
+
+            } catch (erroApi) {
+
+                console.error(
+                    "Erro ao salvar material:",
+                    erroApi
+                );
+
+
+                if (erro) {
+
+                    erro.textContent =
+                        "Não foi possível salvar o material.";
+
+                }
+
+
+            } finally {
+
+                restaurarBotao(
+                    botao
+                );
+
+            }
+
+        }
+    );
+}
+
+
+function configurarFormularioMovimento() {
+
+    const form =
+        document.getElementById(
+            "form-movimento-material"
+        );
+
+
+    if (!form) {
+        return;
+    }
+
+
+    form.addEventListener(
+        "submit",
+        async (evento) => {
+
+            evento.preventDefault();
+
+
+            if (!obraAtual) {
+                return;
+            }
+
+
+            const materialId =
+                document.getElementById(
+                    "movimento-material"
+                ).value;
+
+
+            const erro =
+                document.getElementById(
+                    "movimento-erro"
+                );
+
+
+            const botao =
+                document.getElementById(
+                    "btn-salvar-movimento"
+                );
+
+
+            if (erro) {
+
+                erro.textContent =
+                    "";
+
+            }
+
+
+            if (!materialId) {
+
+                if (erro) {
+
+                    erro.textContent =
+                        "Selecione um material para movimentar.";
+
+                }
+
+                return;
+
+            }
+
+
+            const dados = {
+
+                tipo:
+                    document.getElementById(
+                        "movimento-tipo"
+                    ).value,
+
+                quantidade:
+                    Number(
+                        document.getElementById(
+                            "movimento-quantidade"
+                        ).value
+                    ),
+
+                data:
+                    document.getElementById(
+                        "movimento-data"
+                    ).value,
+
+                etapa:
+                    lerTextoOuNulo(
+                        "movimento-etapa"
+                    ),
+
+                observacao:
+                    lerTextoOuNulo(
+                        "movimento-observacao"
+                    )
+
+            };
+
+
+            try {
+
+                alternarBotaoSalvando(
+                    botao,
+                    "Registrando..."
+                );
+
+
+                await apiPost(
+                    `/obras/${obraAtual.id}/materiais/${materialId}/movimentos`,
+                    dados
+                );
+
+
+                form.reset();
+
+                setValor(
+                    "movimento-data",
+                    formatarDataInputHoje()
+                );
+
+                setValor(
+                    "movimento-material",
+                    materialId
+                );
+
+                await carregarMateriais();
+
+                renderizarMateriais(
+                    Number(materialId)
+                );
+
+                atualizarIndicadoresOperacionais();
+
+                mostrarToast(
+                    "Movimento de material registrado."
+                );
+
+
+            } catch (erroApi) {
+
+                console.error(
+                    "Erro ao registrar movimento:",
+                    erroApi
+                );
+
+
+                if (erro) {
+
+                    erro.textContent =
+                        "Não foi possível registrar o movimento.";
+
+                }
+
+
+            } finally {
+
+                restaurarBotao(
+                    botao
+                );
+
+            }
+
+        }
+    );
+}
+
+
+function renderizarMateriais(
+    materialSelecionado = null
+) {
+
+    atualizarSelectMateriais(
+        materialSelecionado
+    );
+
+
+    const lista =
+        document.getElementById(
+            "lista-materiais"
+        );
+
+
+    if (!lista) {
+        return;
+    }
+
+
+    if (materiais.length === 0) {
+
+        lista.innerHTML = `
+            <div class="empty-state">
+                Nenhum material cadastrado.
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    lista.innerHTML =
+        materiais
+            .map(
+                material => {
+
+                    const movimentos =
+                        material.movimentos || [];
+
+
+                    const ultimosMovimentos =
+                        movimentos.slice(
+                            0,
+                            3
+                        );
+
+
+                    return `
+                        <article class="material-card ${material.em_alerta ? "alerta" : ""}">
+                            <header class="material-card-header">
+                                <div>
+                                    <span class="section-kicker">
+                                        ${escaparHtml(material.unidade)}
+                                    </span>
+
+                                    <h4>
+                                        ${escaparHtml(material.nome)}
+                                    </h4>
+                                </div>
+
+                                <span class="material-saldo">
+                                    ${formatarQuantidade(material.saldo_atual)}
+                                </span>
+                            </header>
+
+                            <div class="material-info-grid">
+                                <div>
+                                    <span>Estoque mínimo</span>
+                                    <strong>${formatarQuantidade(material.estoque_minimo)}</strong>
+                                </div>
+
+                                <div>
+                                    <span>Status</span>
+                                    <strong>${material.em_alerta ? "Atenção" : "Ok"}</strong>
+                                </div>
+                            </div>
+
+                            <div class="material-movimentos">
+                                ${ultimosMovimentos.length === 0 ? `
+                                    <div class="movimento-vazio">
+                                        Sem movimentos registrados.
+                                    </div>
+                                ` : ultimosMovimentos
+                                    .map(
+                                        movimento => `
+                                            <div class="movimento-item">
+                                                <span class="movimento-badge ${movimento.tipo}">
+                                                    ${formatarTipoMovimento(movimento.tipo)}
+                                                </span>
+
+                                                <strong>
+                                                    ${formatarQuantidade(movimento.quantidade)}
+                                                </strong>
+
+                                                <span>
+                                                    ${formatarData(movimento.data)}
+                                                </span>
+                                            </div>
+                                        `
+                                    )
+                                    .join("")
+                                }
+                            </div>
+                        </article>
+                    `;
+
+                }
+            )
+            .join("");
+
+}
+
+
+function atualizarSelectMateriais(
+    materialSelecionado = null
+) {
+
+    const select =
+        document.getElementById(
+            "movimento-material"
+        );
+
+
+    if (!select) {
+        return;
+    }
+
+
+    const valorAtual =
+        materialSelecionado ??
+        select.value;
+
+
+    select.innerHTML = `
+        <option value="">
+            Selecione um material
+        </option>
+        ${materiais
+            .map(
+                material => `
+                    <option value="${material.id}">
+                        ${escaparHtml(material.nome)} (${escaparHtml(material.unidade)})
+                    </option>
+                `
+            )
+            .join("")}
+    `;
+
+
+    if (
+        valorAtual &&
+        materiais.some(
+            material =>
+                Number(material.id) ===
+                Number(valorAtual)
+        )
+    ) {
+
+        select.value =
+            valorAtual;
+
+    }
+
+}
+
+
+// ======================================================
+// TABS
+// ======================================================
+
+function configurarTabs() {
+
+    document
+        .querySelectorAll(
+            ".obra-tab"
+        )
+        .forEach(
+            tab => {
+
+                tab.addEventListener(
+                    "click",
+                    () => {
+
+                        abrirTab(
+                            tab.dataset.tab
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    document
+        .querySelectorAll(
+            "[data-abrir-tab]"
+        )
+        .forEach(
+            botao => {
+
+                botao.addEventListener(
+                    "click",
+                    () => {
+
+                        abrirTab(
+                            botao.dataset.abrirTab
+                        );
+
+                    }
+                );
+
+            }
+        );
+}
+
+
+function abrirTab(nome) {
+
+    const alvo =
+        document.querySelector(
+            `.obra-tab[data-tab="${nome}"]`
+        );
+
+
+    if (!alvo) {
+        return;
+    }
+
+
+    document
+        .querySelectorAll(
+            ".obra-tab"
+        )
+        .forEach(
+            tab => {
+
+                tab.classList.toggle(
+                    "active",
+                    tab.dataset.tab === nome
+                );
+
+            }
+        );
+
+
+    document
+        .querySelectorAll(
+            ".obra-tab-content"
+        )
+        .forEach(
+            conteudo => {
+
+                conteudo.classList.toggle(
+                    "active",
+                    conteudo.dataset.tabContent === nome
+                );
+
+            }
+        );
+
+
+    alvo.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "nearest"
+    });
+
+}
+
+
+// ======================================================
 // MANUCA IA
-// SOMENTE INTERFACE POR ENQUANTO
 // ======================================================
 
 function abrirManuca() {
@@ -758,6 +1765,137 @@ function configurarSidebar() {
 
 
 // ======================================================
+// UTILITARIOS DE FORMULARIO
+// ======================================================
+
+function preencherDatasPadrao() {
+
+    const hoje =
+        formatarDataInputHoje();
+
+
+    setValor(
+        "registro-data",
+        hoje
+    );
+
+
+    setValor(
+        "movimento-data",
+        hoje
+    );
+
+}
+
+
+function focarCampo(id) {
+
+    document
+        .getElementById(
+            id
+        )
+        ?.focus();
+
+}
+
+
+function lerTexto(id) {
+
+    return document
+        .getElementById(
+            id
+        )
+        .value
+        .trim();
+
+}
+
+
+function lerTextoOuNulo(id) {
+
+    const valor =
+        lerTexto(
+            id
+        );
+
+
+    return valor || null;
+
+}
+
+
+function setValor(
+    id,
+    valor
+) {
+
+    const elemento =
+        document.getElementById(
+            id
+        );
+
+
+    if (elemento) {
+
+        elemento.value =
+            valor ?? "";
+
+    }
+
+}
+
+
+function alternarBotaoSalvando(
+    botao,
+    texto
+) {
+
+    if (!botao) {
+        return;
+    }
+
+
+    botao.dataset.originalHtml =
+        botao.innerHTML;
+
+
+    botao.disabled =
+        true;
+
+
+    botao.innerHTML = `
+        <span class="material-symbols-outlined">
+            progress_activity
+        </span>
+
+        ${texto}
+    `;
+
+}
+
+
+function restaurarBotao(botao) {
+
+    if (!botao) {
+        return;
+    }
+
+
+    botao.disabled =
+        false;
+
+
+    if (botao.dataset.originalHtml) {
+
+        botao.innerHTML =
+            botao.dataset.originalHtml;
+
+    }
+
+}
+
+
+// ======================================================
 // FORMATADORES
 // ======================================================
 
@@ -873,6 +2011,62 @@ function formatarMoeda(valor) {
 }
 
 
+function formatarQuantidade(valor) {
+
+    return new Intl.NumberFormat(
+        "pt-BR",
+        {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        }
+    ).format(
+        Number(valor) || 0
+    );
+
+}
+
+
+function formatarClima(clima) {
+
+    const climas = {
+        sol: "Sol",
+        chuva: "Chuva",
+        nublado: "Nublado"
+    };
+
+
+    return climas[clima] ?? clima ?? "—";
+
+}
+
+
+function iconeClima(clima) {
+
+    const icones = {
+        sol: "wb_sunny",
+        chuva: "rainy",
+        nublado: "cloud"
+    };
+
+
+    return icones[clima] ?? "partly_cloudy_day";
+
+}
+
+
+function formatarTipoMovimento(tipo) {
+
+    const tipos = {
+        entrada: "Entrada",
+        saida: "Saída"
+    };
+
+
+    return tipos[tipo] ?? tipo ?? "—";
+
+}
+
+
 function formatarDataInputHoje() {
 
     const hoje =
@@ -902,6 +2096,49 @@ function formatarDataInputHoje() {
 
 
     return `${ano}-${mes}-${dia}`;
+
+}
+
+
+function obterIniciais(nome) {
+
+    return String(
+        nome || "?"
+    )
+        .trim()
+        .split(/\s+/)
+        .slice(
+            0,
+            2
+        )
+        .map(
+            parte =>
+                parte[0]
+        )
+        .join("")
+        .toUpperCase();
+
+}
+
+
+function escaparHtml(valor) {
+
+    const mapa = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#039;"
+    };
+
+
+    return String(
+        valor ?? ""
+    ).replace(
+        /[&<>"']/g,
+        caractere =>
+            mapa[caractere]
+    );
 
 }
 

@@ -761,6 +761,482 @@
 
 
 /* =====================================================
+   MODULOS OPERACIONAIS
+===================================================== */
+
+.modulo-toolbar {
+    padding: 14px 18px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    border-bottom: 1px solid #f1f5f9;
+
+    background: #f8fafc;
+}
+
+
+.modulo-toolbar > .material-symbols-outlined {
+    color: #94a3b8;
+    font-size: 19px;
+}
+
+
+.modulo-toolbar input {
+    height: 39px;
+
+    padding: 0 11px;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+
+    background: #ffffff;
+    color: #334155;
+
+    font-family: inherit;
+    font-size: .72rem;
+}
+
+
+.diario-lista,
+.modulo-lista {
+    padding: 16px;
+}
+
+
+.diario-lista {
+    display: grid;
+
+    gap: 12px;
+}
+
+
+.diario-card {
+    padding: 16px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+
+    background: #ffffff;
+}
+
+
+.diario-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 14px;
+}
+
+
+.diario-card h4,
+.material-card h4 {
+    margin: 3px 0 0;
+
+    color: #0f172a;
+    font-size: .9rem;
+}
+
+
+.diario-tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 8px;
+}
+
+
+.clima-badge,
+.pessoas-badge,
+.movimento-badge {
+    min-height: 28px;
+
+    padding: 0 9px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 5px;
+
+    border-radius: 20px;
+
+    font-size: .64rem;
+    font-weight: 750;
+}
+
+
+.clima-badge .material-symbols-outlined,
+.pessoas-badge .material-symbols-outlined {
+    font-size: 16px;
+}
+
+
+.clima-badge.sol {
+    background: #fffbeb;
+    color: #b45309;
+}
+
+
+.clima-badge.chuva {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+
+.clima-badge.nublado {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+
+.pessoas-badge {
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+
+.diario-bloco {
+    margin-top: 14px;
+}
+
+
+.diario-bloco span,
+.material-info-grid span {
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: .62rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+}
+
+
+.diario-bloco p {
+    margin: 5px 0 0;
+
+    color: #334155;
+
+    font-size: .74rem;
+    line-height: 1.55;
+
+    white-space: pre-wrap;
+}
+
+
+.diario-bloco.ocorrencia {
+    padding: 12px;
+
+    border: 1px solid #fed7aa;
+    border-radius: 12px;
+
+    background: #fff7ed;
+}
+
+
+.modulo-layout {
+    padding: 16px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(260px, .7fr)
+        minmax(0, 1.3fr);
+
+    gap: 16px;
+}
+
+
+.materiais-forms {
+    padding: 16px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(250px, .75fr)
+        minmax(300px, 1.25fr);
+
+    gap: 16px;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+
+.modulo-form {
+    min-width: 0;
+
+    padding: 16px;
+
+    display: grid;
+
+    gap: 13px;
+
+    align-content: start;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+
+    background: #f8fafc;
+}
+
+
+.form-row {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+.equipe-lista {
+    display: grid;
+
+    gap: 10px;
+}
+
+
+.equipe-item {
+    padding: 13px;
+
+    display: grid;
+
+    grid-template-columns:
+        42px minmax(0, 1fr) minmax(110px, auto);
+
+    align-items: center;
+
+    gap: 12px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+
+    background: #ffffff;
+}
+
+
+.equipe-avatar {
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 12px;
+
+    background: #eff6ff;
+    color: #1d4ed8;
+
+    font-size: .74rem;
+    font-weight: 800;
+}
+
+
+.equipe-copy {
+    min-width: 0;
+}
+
+
+.equipe-copy strong,
+.equipe-copy span {
+    display: block;
+}
+
+
+.equipe-copy strong {
+    overflow: hidden;
+
+    color: #0f172a;
+
+    font-size: .78rem;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.equipe-copy span,
+.equipe-contato {
+    margin-top: 3px;
+
+    overflow: hidden;
+
+    color: #64748b;
+
+    font-size: .68rem;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.equipe-contato {
+    margin-top: 0;
+    text-align: right;
+}
+
+
+.materiais-lista {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+.material-card {
+    overflow: hidden;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+
+    background: #ffffff;
+}
+
+
+.material-card.alerta {
+    border-color: #fed7aa;
+}
+
+
+.material-card-header {
+    padding: 15px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+
+.material-saldo {
+    min-width: 58px;
+    min-height: 34px;
+
+    padding: 0 10px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #f0fdf4;
+    color: #15803d;
+
+    font-size: .88rem;
+    font-weight: 800;
+}
+
+
+.material-card.alerta .material-saldo {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+
+.material-info-grid {
+    padding: 13px 15px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+    background: #f8fafc;
+}
+
+
+.material-info-grid strong {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #334155;
+
+    font-size: .74rem;
+}
+
+
+.material-movimentos {
+    padding: 8px 15px 12px;
+}
+
+
+.movimento-item {
+    min-height: 36px;
+
+    display: grid;
+
+    grid-template-columns:
+        78px minmax(0, 1fr) auto;
+
+    align-items: center;
+
+    gap: 8px;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+
+.movimento-item:last-child {
+    border-bottom: 0;
+}
+
+
+.movimento-item strong {
+    color: #334155;
+
+    font-size: .72rem;
+}
+
+
+.movimento-item > span:last-child,
+.movimento-vazio {
+    color: #94a3b8;
+
+    font-size: .64rem;
+}
+
+
+.movimento-badge {
+    justify-content: center;
+
+    border-radius: 9px;
+}
+
+
+.movimento-badge.entrada {
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+
+.movimento-badge.saida {
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+
+.movimento-vazio {
+    padding: 14px 0 2px;
+
+    text-align: center;
+}
+
+
+/* =====================================================
    STATUS
 ===================================================== */
 
@@ -924,6 +1400,7 @@
 
 
 .form-group input,
+.form-group select,
 .form-group textarea {
     width: 100%;
 
@@ -945,12 +1422,14 @@
 }
 
 
-.form-group input {
+.form-group input,
+.form-group select {
     height: 43px;
 }
 
 
 .form-group input:focus,
+.form-group select:focus,
 .form-group textarea:focus {
     border-color: #2563eb;
 
@@ -1285,6 +1764,11 @@ body.modal-open {
         grid-template-columns: 1fr;
     }
 
+    .modulo-layout,
+    .materiais-forms {
+        grid-template-columns: 1fr;
+    }
+
 }
 
 
@@ -1310,6 +1794,10 @@ body.modal-open {
         flex-direction: column;
     }
 
+    .materiais-lista {
+        grid-template-columns: 1fr;
+    }
+
 }
 
 
@@ -1318,7 +1806,8 @@ body.modal-open {
     .obra-metricas,
     .operacao-grid,
     .obra-modulos-grid,
-    .registro-grid {
+    .registro-grid,
+    .form-row {
         grid-template-columns: 1fr;
     }
 
@@ -1337,6 +1826,37 @@ body.modal-open {
 
     .manuca-sugestoes {
         grid-template-columns: 1fr;
+    }
+
+    .diario-card-header,
+    .modulo-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .modulo-toolbar input {
+        width: 100%;
+    }
+
+    .equipe-item {
+        grid-template-columns: 38px minmax(0, 1fr);
+    }
+
+    .equipe-contato {
+        grid-column: 2;
+        text-align: left;
+    }
+
+    .movimento-item {
+        grid-template-columns: 1fr auto;
+    }
+
+    .movimento-badge {
+        width: max-content;
+    }
+
+    .movimento-item > span:last-child {
+        grid-column: 1 / -1;
     }
 
 }
