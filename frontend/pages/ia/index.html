@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+
+    <title>Manuca IA | Obra Fácil</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    >
+
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../modulos.css">
+    <link rel="stylesheet" href="ia.css">
+</head>
+
+<body class="ia-page">
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand-row">
+                <a
+                    class="brand"
+                    href="../../index.html"
+                    aria-label="Obra Fácil"
+                >
+                    <img
+                        src="../../assets/logo_sem_fundo.png"
+                        alt="Obra Fácil"
+                        class="brand-logo"
+                    >
+
+                    <span class="brand-copy">
+                        <strong>Obra Fácil</strong>
+                        <small>Gestão de obras</small>
+                    </span>
+                </a>
+
+                <button
+                    class="icon-button sidebar-toggle"
+                    id="btn-toggle"
+                    type="button"
+                    aria-label="Recolher menu"
+                >
+                    <span class="material-symbols-outlined">
+                        left_panel_close
+                    </span>
+                </button>
+            </div>
+
+            <nav class="menu" aria-label="Menu principal">
+                <a href="../../index.html" class="menu-item">
+                    <span class="material-symbols-outlined">space_dashboard</span>
+                    <span class="menu-label">Visão geral</span>
+                </a>
+
+                <a href="../obras/index.html" class="menu-item">
+                    <span class="material-symbols-outlined">construction</span>
+                    <span class="menu-label">Obras</span>
+                </a>
+
+                <a href="../diario/index.html" class="menu-item">
+                    <span class="material-symbols-outlined">edit_note</span>
+                    <span class="menu-label">Diário</span>
+                </a>
+
+                <a href="../materiais/index.html" class="menu-item">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                    <span class="menu-label">Materiais</span>
+                </a>
+
+                <a href="../equipe/index.html" class="menu-item">
+                    <span class="material-symbols-outlined">groups</span>
+                    <span class="menu-label">Equipe</span>
+                </a>
+
+                <a href="index.html" class="menu-item active">
+                    <span class="material-symbols-outlined">auto_awesome</span>
+                    <span class="menu-label">IA</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="menu-item menu-button" type="button">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="menu-label">Configurações</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-area">
+            <header class="topbar">
+                <div class="topbar-title">
+                    <span class="eyebrow">Assistente</span>
+                    <h1>Manuca IA</h1>
+                </div>
+
+                <div class="topbar-actions">
+                    <button
+                        class="button button-ghost"
+                        id="btn-limpar-chat"
+                        type="button"
+                    >
+                        <span class="material-symbols-outlined">mop</span>
+                        <span class="btn-label">Limpar</span>
+                    </button>
+                </div>
+            </header>
+
+            <section class="page-content ia-content">
+                <div class="ia-page-header">
+                    <div>
+                        <p class="welcome-kicker">Manuca IA</p>
+                        <h2>Conversa da obra</h2>
+                        <p class="page-subtitle">
+                            Contexto, diário, equipe e materiais em uma conversa.
+                        </p>
+                    </div>
+
+                    <div class="ia-obra-selector">
+                        <label for="manuca-obra">Obra</label>
+                        <select id="manuca-obra">
+                            <option value="">Carregando obras...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="ia-layout">
+                    <section class="panel ia-chat-panel">
+                        <div class="ia-chat-header">
+                            <span class="ia-avatar">
+                                <span class="material-symbols-outlined">
+                                    auto_awesome
+                                </span>
+                            </span>
+
+                            <div>
+                                <span class="section-kicker">
+                                    Agente da obra
+                                </span>
+                                <h3>Manuca</h3>
+                                <p id="manuca-status">
+                                    Aguardando contexto da obra.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="ia-messages"
+                            id="manuca-mensagens"
+                            aria-live="polite"
+                        ></div>
+
+                        <div class="ia-sugestoes" id="manuca-sugestoes">
+                            <button
+                                type="button"
+                                data-prompt="Analise o andamento da obra com base nos últimos registros do diário."
+                            >
+                                Andamento
+                            </button>
+
+                            <button
+                                type="button"
+                                data-prompt="Quais riscos eu devo acompanhar nesta obra agora?"
+                            >
+                                Riscos
+                            </button>
+
+                            <button
+                                type="button"
+                                data-prompt="O que chama atenção em materiais e equipe nesta obra?"
+                            >
+                                Materiais e equipe
+                            </button>
+
+                            <button
+                                type="button"
+                                data-prompt="Monte próximos passos por etapa para esta obra."
+                            >
+                                Próximos passos
+                            </button>
+                        </div>
+
+                        <form class="ia-composer" id="form-manuca">
+                            <textarea
+                                id="manuca-mensagem"
+                                rows="2"
+                                maxlength="4000"
+                                placeholder="Pergunte ao Manuca..."
+                                required
+                            ></textarea>
+
+                            <button
+                                class="button button-primary"
+                                id="btn-enviar-manuca"
+                                type="submit"
+                                aria-label="Enviar mensagem"
+                            >
+                                <span class="material-symbols-outlined">
+                                    send
+                                </span>
+                            </button>
+                        </form>
+                    </section>
+
+                    <aside class="panel ia-context-panel">
+                        <div class="ia-context-header">
+                            <span class="material-symbols-outlined">
+                                dataset
+                            </span>
+
+                            <div>
+                                <span class="section-kicker">
+                                    Contexto
+                                </span>
+                                <h3>Dados enviados</h3>
+                            </div>
+                        </div>
+
+                        <div
+                            class="ia-context-body"
+                            id="manuca-contexto"
+                        ></div>
+                    </aside>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">
+        <span class="material-symbols-outlined">check_circle</span>
+        <span id="toast-text">Tudo certo.</span>
+    </div>
+
+    <script src="../../shared/api.js"></script>
+    <script src="../../shared/ui.js"></script>
+    <script src="ia.js"></script>
+</body>
+</html>

@@ -1631,31 +1631,14 @@ function abrirTab(nome) {
 
 function abrirManuca() {
 
-    const overlay =
-        document.getElementById(
-            "manuca-overlay"
-        );
+    const destino =
+        obraAtual?.id
+            ? `../../ia/index.html?obra_id=${obraAtual.id}`
+            : "../../ia/index.html";
 
 
-    if (!overlay) {
-        return;
-    }
-
-
-    overlay.classList.add(
-        "open"
-    );
-
-
-    overlay.setAttribute(
-        "aria-hidden",
-        "false"
-    );
-
-
-    document.body.classList.add(
-        "modal-open"
-    );
+    window.location.href =
+        destino;
 
 }
 
