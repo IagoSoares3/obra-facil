@@ -1,0 +1,42 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nome": "iago",
+      "email": "iagoteste@teste.com.br",
+      "senhaHash": "3842af67a4af9f4d3e40f5a242708ba1ec18f0cb14b1d03f317565d8d39e7ca4038837d4b2b743936c1a4d7674cf684aa8749b022d2e36144f121736ed215dde",
+      "senhaSalt": "08bd41481af75181eae6d8720f362d26",
+      "tipo": "EMPRESA",
+      "criadoEm": 1794412729839
+    }
+  ],
+  "prestadores": [
+    {
+      "id": 1,
+      "usuarioId": 1,
+      "tipo": "EMPRESA",
+      "nomeExibicao": "iagu",
+      "descricao": "",
+      "cidade": "sp",
+      "telefone": "11999999999"
+    }
+  ],
+  "servicos": [],
+  "solicitacoes": [],
+  "propostas": [],
+  "obras": [],
+  "atualizacoes": [],
+  "produtos": [],
+  "etapas": [],
+  "_ids": {
+    "usuarios": 2,
+    "prestadores": 2,
+    "servicos": 1,
+    "solicitacoes": 1,
+    "propostas": 1,
+    "obras": 1,
+    "atualizacoes": 1,
+    "produtos": 1,
+    "etapas": 1
+  }
+}

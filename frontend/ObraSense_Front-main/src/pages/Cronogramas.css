@@ -1,0 +1,792 @@
+.cronogramas-vazio {
+  display: flex;
+  min-height: 260px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: var(--branco);
+  text-align: center;
+}
+
+.cronogramas-vazio > .material-symbols-outlined {
+  margin-bottom: 12px;
+  color: var(--verde-claro);
+  font-size: 44px;
+}
+
+.cronogramas-vazio h2 {
+  margin: 0 0 8px;
+  color: var(--azul-super-escuro);
+  font-size: 20px;
+}
+
+.cronogramas-vazio p {
+  max-width: 500px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.cronogramas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.cronograma-seletor {
+  display: flex;
+  min-width: min(300px, 100%);
+  flex-direction: column;
+  gap: 6px;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cronograma-seletor select {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #0f172a;
+  font: inherit;
+  font-size: 14px;
+}
+
+.cronograma-seletor select:focus,
+.cronograma-dia-form input:focus,
+.cronograma-dia-form select:focus {
+  outline: 2px solid rgba(16, 185, 129, 0.55);
+  outline-offset: 1px;
+}
+
+.cronograma-link {
+  margin-top: 12px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: var(--verde-claro);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cronograma-link:hover {
+  background: #059669;
+}
+
+.cronograma-erro,
+.cronograma-clima-erro {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+.cronograma-resumo {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.cronograma-resumo > div {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 38px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 11px;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.cronograma-resumo .material-symbols-outlined {
+  display: flex;
+  width: 38px;
+  height: 38px;
+  grid-row: span 2;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.cronograma-resumo p {
+  overflow: hidden;
+  color: #64748b;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cronograma-resumo strong {
+  overflow: hidden;
+  margin-top: 3px;
+  color: #0f172a;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendario-progresso {
+  padding: 22px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: var(--branco);
+}
+
+.calendario-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.calendario-header h2 {
+  margin: 0;
+  color: var(--azul-super-escuro);
+  font-size: 21px;
+  text-transform: capitalize;
+}
+
+.calendario-header p {
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.calendario-navegacao {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.calendario-navegacao button {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #fff;
+  color: #334155;
+  cursor: pointer;
+}
+
+.calendario-navegacao button:hover {
+  border-color: var(--verde-claro);
+  color: #059669;
+}
+
+.cronograma-legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 14px;
+}
+
+.cronograma-legenda > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.cronograma-legenda i {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: #e2e8f0;
+}
+
+.legenda-trabalho { background: #d1fae5 !important; }
+.legenda-trabalhado { background: #10b981 !important; }
+.legenda-pausa { background: #fef3c7 !important; }
+.legenda-intervalo { background: #dbeafe !important; }
+.legenda-nao-trabalhado { background: #fee2e2 !important; }
+.legenda-descanso { background: #e2e8f0 !important; }
+.legenda-clima { background: #bfdbfe !important; }
+
+.cronograma-clima-aviso {
+  margin: 0 0 12px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.cronograma-clima-aviso a,
+.cronograma-fonte-clima a {
+  color: #047857;
+  font-weight: 650;
+}
+
+.cronograma-fonte-clima {
+  margin: 10px 0 0;
+  color: #94a3b8;
+  font-size: 10px;
+  text-align: right;
+}
+
+.calendario-grade {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  overflow: hidden;
+  border-top: 1px solid #e2e8f0;
+  border-left: 1px solid #e2e8f0;
+}
+
+.calendario-dia-semana {
+  padding: 10px 6px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.calendario-dia-semana,
+.calendario-celula {
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.calendario-celula {
+  display: flex;
+  min-width: 0;
+  min-height: 126px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 7px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+button.calendario-celula {
+  cursor: pointer;
+  transition: background-color 140ms ease, box-shadow 140ms ease;
+}
+
+button.calendario-celula:hover:not(:disabled) {
+  box-shadow: inset 0 0 0 2px rgba(16, 185, 129, 0.45);
+}
+
+button.calendario-celula:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 3px solid #059669;
+  outline-offset: -3px;
+}
+
+button.calendario-celula:disabled {
+  cursor: default;
+}
+
+.calendario-vazia {
+  background: #f8fafc;
+}
+
+.calendario-celula.dia-descanso,
+.calendario-celula.dia-descanso-semanal {
+  background: #f8fafc;
+}
+
+.calendario-celula.dia-trabalhado {
+  background: #ecfdf5;
+}
+
+.calendario-celula.dia-pausa {
+  background: #fffbeb;
+}
+
+.calendario-celula.dia-intervalo {
+  background: #eff6ff;
+}
+
+.calendario-celula.dia-nao-trabalhado {
+  background: #fef2f2;
+}
+
+.calendario-celula.calendario-hoje {
+  box-shadow: inset 0 0 0 2px #10b981;
+}
+
+.calendario-celula.dia-selecionado {
+  box-shadow: inset 0 0 0 3px #0f766e;
+}
+
+.calendario-numero {
+  display: inline-flex;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  color: #334155;
+  font-size: 13px;
+}
+
+.calendario-hoje .calendario-numero {
+  background: var(--verde-claro);
+  color: #fff;
+  font-weight: 700;
+}
+
+.calendario-dia-status {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  gap: 3px;
+  overflow: hidden;
+  color: #475569;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendario-dia-status .material-symbols-outlined {
+  flex-shrink: 0;
+  color: #059669;
+  font-size: 14px;
+}
+
+.dia-trabalhado .calendario-dia-status .material-symbols-outlined { color: #059669; }
+.dia-pausa .calendario-dia-status .material-symbols-outlined { color: #b45309; }
+.dia-intervalo .calendario-dia-status .material-symbols-outlined { color: #2563eb; }
+.dia-nao-trabalhado .calendario-dia-status .material-symbols-outlined { color: #dc2626; }
+.dia-descanso .calendario-dia-status .material-symbols-outlined,
+.dia-descanso-semanal .calendario-dia-status .material-symbols-outlined { color: #64748b; }
+
+.calendario-nota {
+  display: -webkit-box;
+  max-width: 100%;
+  margin-top: 4px;
+  overflow: hidden;
+  color: #64748b;
+  font-size: 10px;
+  line-height: 1.3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.calendario-clima {
+  display: flex;
+  max-width: 100%;
+  align-items: center;
+  gap: 3px;
+  margin-top: auto;
+  padding: 3px 5px;
+  border-radius: 6px;
+  background: #eff6ff;
+  color: #1e40af;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.calendario-clima small {
+  margin-left: 2px;
+  color: #64748b;
+  font-size: 9px;
+}
+
+.cronograma-dia-form {
+  display: grid;
+  grid-template-columns: minmax(145px, 0.8fr) minmax(220px, 1.5fr) auto;
+  align-items: end;
+  gap: 14px;
+  margin-top: 20px;
+  padding: 18px;
+  border: 1px solid #d1fae5;
+  border-radius: 10px;
+  background: #f0fdf4;
+}
+
+.cronograma-dia-form-titulo {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cronograma-dia-form-titulo > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cronograma-dia-form-titulo span {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.cronograma-dia-form-titulo strong {
+  color: #0f172a;
+  font-size: 15px;
+}
+
+.cronograma-dia-form-titulo button {
+  display: flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.cronograma-dia-form-titulo button:hover {
+  background: #dcfce7;
+  color: #0f172a;
+}
+
+.cronograma-dia-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cronograma-dia-form input,
+.cronograma-dia-form select {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  background: #fff;
+  color: #0f172a;
+  font: inherit;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.cronograma-dia-acoes {
+  display: flex;
+  gap: 8px;
+}
+
+.cronograma-dia-acoes button {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: #10b981;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cronograma-dia-acoes button:hover {
+  background: #059669;
+}
+
+.cronograma-dia-acoes .cronograma-cancelar {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #475569;
+}
+
+.cronograma-dia-acoes .cronograma-cancelar:hover {
+  background: #f8fafc;
+}
+
+@media (max-width: 1050px) {
+  .cronograma-resumo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cronograma-dia-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .cronogramas-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cronograma-seletor {
+    width: 100%;
+  }
+
+  .calendario-progresso {
+    overflow: hidden;
+    padding: 16px;
+  }
+
+  .calendario-grade {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+
+  .calendario-celula {
+    min-height: 106px;
+    padding: 5px;
+  }
+}
+
+@media (max-width: 520px) {
+  .cronograma-resumo {
+    gap: 9px;
+  }
+
+  .cronograma-resumo > div {
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 8px;
+    padding: 11px;
+  }
+
+  .cronograma-resumo .material-symbols-outlined {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+  }
+
+  .cronograma-resumo strong {
+    font-size: 11px;
+  }
+
+  .calendario-header {
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .calendario-header > div:first-child {
+    min-width: 0;
+  }
+
+  .calendario-header h2 {
+    font-size: 17px;
+  }
+
+  .calendario-header p {
+    overflow: hidden;
+    max-width: 32vw;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+  }
+
+  .calendario-navegacao {
+    flex-shrink: 0;
+    gap: 4px;
+  }
+
+  .calendario-navegacao button {
+    min-width: 40px;
+    min-height: 40px;
+    padding: 5px 8px;
+  }
+
+  .cronograma-legenda {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px 8px;
+    margin-bottom: 12px;
+  }
+
+  .cronograma-legenda > span {
+    min-width: 0;
+    gap: 5px;
+    font-size: 10px;
+  }
+
+  .calendario-progresso {
+    overflow: hidden;
+    margin-right: -14px;
+    margin-left: -14px;
+    padding: 14px 6px;
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
+
+  .calendario-grade {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 2px 0;
+    overflow: visible;
+    border: 0;
+  }
+
+  .calendario-dia-semana {
+    padding: 7px 0;
+    border: 0;
+    border-bottom: 1px solid #e2e8f0;
+    background: transparent;
+    font-size: 10px;
+  }
+
+  .calendario-celula {
+    position: relative;
+    min-height: 52px;
+    align-items: center;
+    padding: 3px 1px;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+  }
+
+  .calendario-celula.calendario-vazia {
+    background: transparent;
+  }
+
+  button.calendario-celula:hover:not(:disabled) {
+    background: #f0fdf4;
+    box-shadow: none;
+  }
+
+  .calendario-numero {
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    font-size: 13px;
+  }
+
+  .calendario-dia-status {
+    display: flex;
+    width: 100%;
+    height: 8px;
+    justify-content: center;
+    gap: 0;
+    overflow: visible;
+    font-size: 0;
+  }
+
+  .calendario-dia-status .material-symbols-outlined {
+    width: 7px;
+    height: 7px;
+    overflow: hidden;
+    border-radius: 50%;
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
+  }
+
+  .dia-programado .calendario-dia-status .material-symbols-outlined { background: #86efac; }
+  .dia-trabalhado .calendario-dia-status .material-symbols-outlined { background: #059669; }
+  .dia-pausa .calendario-dia-status .material-symbols-outlined { background: #f59e0b; }
+  .dia-intervalo .calendario-dia-status .material-symbols-outlined { background: #3b82f6; }
+  .dia-nao-trabalhado .calendario-dia-status .material-symbols-outlined { background: #ef4444; }
+  .dia-descanso .calendario-dia-status .material-symbols-outlined,
+  .dia-descanso-semanal .calendario-dia-status .material-symbols-outlined { background: #94a3b8; }
+
+  .calendario-celula.dia-trabalhado {
+    background: #ecfdf5;
+  }
+
+  .calendario-celula.dia-pausa {
+    background: #fffbeb;
+  }
+
+  .calendario-celula.dia-intervalo {
+    background: #eff6ff;
+  }
+
+  .calendario-celula.dia-nao-trabalhado {
+    background: #fef2f2;
+  }
+
+  .calendario-celula.dia-selecionado {
+    background: #d1fae5;
+    box-shadow: inset 0 0 0 2px #0f766e;
+  }
+
+  .calendario-celula.calendario-hoje {
+    box-shadow: inset 0 0 0 2px #10b981;
+  }
+
+  .calendario-celula.dia-selecionado.calendario-hoje {
+    box-shadow: inset 0 0 0 3px #0f766e;
+  }
+
+  .calendario-com-nota::after {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #f59e0b;
+    content: '';
+  }
+
+  .calendario-nota {
+    display: none;
+  }
+
+  .calendario-clima {
+    gap: 1px;
+    margin-top: 2px;
+    padding: 0;
+    background: transparent;
+    color: #1d4ed8;
+    font-size: 9px;
+  }
+
+  .calendario-clima small {
+    display: none;
+  }
+
+  .cronograma-fonte-clima {
+    margin-top: 8px;
+    font-size: 9px;
+  }
+
+  .cronograma-dia-form {
+    grid-template-columns: 1fr;
+  }
+
+  .cronograma-dia-acoes {
+    flex-direction: column;
+  }
+
+  .cronograma-dia-acoes button {
+    min-height: 44px;
+  }
+
+  .calendario-celula {
+    min-height: 48px;
+    border-radius: 8px;
+  }
+
+  .calendario-numero {
+    width: 27px;
+    height: 27px;
+  }
+
+  .calendario-com-nota::after {
+    top: 2px;
+    right: 2px;
+  }
+}

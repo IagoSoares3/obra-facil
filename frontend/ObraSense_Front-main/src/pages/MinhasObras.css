@@ -1,0 +1,463 @@
+.btn-nova-obra {
+  background-color: var(--verde-claro);
+  color: var(--branco);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s;
+}
+
+.btn-nova-obra:hover {
+  background-color: #059669;
+}
+
+.nova-obra-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.nova-obra-modal {
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 40px);
+  padding: 28px;
+  overflow-y: auto;
+  border-radius: 12px;
+  background: var(--branco);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+  box-sizing: border-box;
+}
+
+.nova-obra-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.nova-obra-modal-header h2 {
+  margin: 0;
+  color: var(--azul-super-escuro);
+  font-size: 22px;
+}
+
+.nova-obra-fechar {
+  display: flex;
+  padding: 6px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #64748B;
+  cursor: pointer;
+}
+
+.nova-obra-fechar:hover {
+  background: #F1F5F9;
+}
+
+.nova-obra-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.nova-obra-form label {
+  margin-top: 6px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nova-obra-form input,
+.nova-obra-form select {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #CBD5E1;
+  border-radius: 6px;
+  background: #FFFFFF;
+  color: #0F172A;
+  font: inherit;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.nova-obra-form input:focus,
+.nova-obra-form select:focus {
+  outline: 2px solid var(--verde-claro);
+  outline-offset: 1px;
+}
+
+.nova-obra-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.nova-obra-acoes button {
+  padding: 10px 16px;
+  border-radius: 7px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nova-obra-cancelar {
+  border: 1px solid #CBD5E1;
+  background: #FFFFFF;
+  color: #475569;
+}
+
+.nova-obra-salvar {
+  border: 0;
+  background: var(--verde-claro);
+  color: #FFFFFF;
+}
+
+.nova-obra-salvar:hover {
+  background: #059669;
+}
+
+.table-container {
+  background-color: var(--branco);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  border: 1px solid #E2E8F0;
+  overflow: hidden;
+}
+
+.obras-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.obras-table th {
+  background-color: #F8FAFC;
+  padding: 16px 24px;
+  font-size: 13px;
+  color: #64748B;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.obras-table td {
+  padding: 20px 24px;
+  border-bottom: 1px solid #F1F5F9;
+  color: #334155;
+  font-size: 15px;
+}
+
+.obras-table tbody tr:hover {
+  background-color: #F8FAFC;
+}
+
+.obra-nome {
+  font-weight: 600;
+  color: var(--azul-super-escuro);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icone-alerta {
+  color: #EF4444;
+  font-size: 20px;
+}
+
+.linha-alerta {
+  background-color: #FEF2F2 !important;
+}
+
+/* Badges de Status */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-badge.em-andamento { background-color: #DBEAFE; color: #1D4ED8; }
+.status-badge.atrasada { background-color: #FEE2E2; color: #B91C1C; }
+.status-badge.iniciando { background-color: #FEF3C7; color: #B45309; }
+.status-badge.concluída { background-color: #DCFCE7; color: #15803D; }
+
+/* Barra de Progresso */
+.progresso-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progresso-barra {
+  height: 8px;
+  background-color: var(--verde-claro);
+  border-radius: 4px;
+  min-width: 50px;
+  max-width: 120px;
+}
+
+.progresso-texto {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748B;
+}
+
+.btn-acao {
+  background: transparent;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: 0.2s;
+}
+
+.btn-acao:hover {
+  color: var(--azul-super-escuro);
+}
+
+.btn-acessar-obra {
+  margin-right: 10px;
+  padding: 8px 13px;
+  border: 0;
+  border-radius: 7px;
+  background: #10B981;
+  color: #FFFFFF;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background-color 160ms ease;
+}
+
+.btn-acessar-obra:hover {
+  background: #059669;
+}
+
+.btn-acessar-obra:focus-visible {
+  outline: 3px solid rgba(16, 185, 129, 0.4);
+  outline-offset: 2px;
+}
+
+.obras-erro {
+  margin: -10px 0 18px;
+  padding: 12px 14px;
+  border: 1px solid #FECACA;
+  border-radius: 8px;
+  background: #FEF2F2;
+  color: #B91C1C;
+  font-size: 14px;
+}
+
+.obras-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.obra-nome-text {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.obras-lista-vazia {
+  display: flex;
+  min-height: 220px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  color: #64748b;
+  text-align: center;
+}
+
+.obras-lista-vazia .material-symbols-outlined {
+  color: var(--verde-claro);
+  font-size: 38px;
+}
+
+.obras-lista-vazia strong {
+  color: var(--azul-super-escuro);
+  font-size: 16px;
+}
+
+.obras-lista-vazia span:last-child {
+  max-width: 300px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .nova-obra-overlay {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
+  .nova-obra-modal {
+    max-height: calc(100vh - 24px);
+    padding: 22px;
+  }
+
+  .obras-table th,
+  .obras-table td {
+    padding: 13px 12px;
+    font-size: 13px;
+  }
+
+  .btn-acessar-obra {
+    margin-right: 4px;
+    padding: 7px 9px;
+  }
+
+  .obras-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .btn-nova-obra {
+    min-height: 46px;
+    justify-content: center;
+  }
+
+  .table-container {
+    overflow: visible;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .obras-table,
+  .obras-table tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .obras-table {
+    padding: 0;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+  }
+
+  .obras-table thead {
+    display: none;
+  }
+
+  .obras-table tbody tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 14px;
+    padding: 8px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+  }
+
+  .obras-table tbody tr.linha-alerta {
+    border-color: #fecaca;
+    background: #fff7f7 !important;
+  }
+
+  .obras-table td {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 10px 0;
+    border: 0;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  .obras-table td::before {
+    color: #64748b;
+    content: attr(data-label);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .obras-table td.obra-nome,
+  .obras-table td.obra-acoes {
+    grid-column: 1 / -1;
+  }
+
+  .obras-table td.obra-nome {
+    align-items: stretch;
+    font-size: 15px;
+  }
+
+  .obra-nome-text {
+    overflow-wrap: anywhere;
+  }
+
+  .obras-table td.obra-acoes {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    border-top: 1px solid #f1f5f9;
+  }
+
+  .obras-table td.obra-acoes::before {
+    display: none;
+  }
+
+  .obras-table td[data-label="Progresso"] .progresso-container {
+    width: 100%;
+    gap: 8px;
+  }
+
+  .obras-table td[data-label="Progresso"] .progresso-barra {
+    min-width: 0;
+    max-width: none;
+  }
+
+  .obras-table td[data-label="Progresso"] .progresso-texto {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .btn-acessar-obra {
+    min-height: 40px;
+    margin: 0;
+  }
+
+  .btn-acao {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .nova-obra-acoes {
+    flex-direction: column-reverse;
+  }
+
+  .nova-obra-acoes button {
+    min-height: 44px;
+  }
+
+  .nova-obra-modal {
+    padding: 18px;
+  }
+}
