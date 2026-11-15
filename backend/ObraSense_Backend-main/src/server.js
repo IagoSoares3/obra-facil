@@ -10,7 +10,13 @@ import propostasRoutes from './routes/propostasRoutes.js';
 import agenteRoutes from './routes/agenteRoutes.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
-app.use(cors({ origin: /^http:\/\/(?:localhost|127\.0\.0\.1):\d+$/ }));
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://taupe-speculoos-cef7ad.netlify.app'
+  ]
+}));
 app.use(express.json());
 app.get('/', (_req, res) => res.json({ mensagem: 'API ObraSense com armazenamento JSON funcionando!' }));
 app.use('/api/auth', authRoutes);

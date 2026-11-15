@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000';
+const API_URL = 'https://obra-facil-production.up.railway.app';
 
 export async function api(rota, opcoes = {}) {
   const token = localStorage.getItem('token');
